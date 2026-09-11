@@ -386,7 +386,7 @@ async function initCloud(){
   if(!cloudReady()){ updateCloudStatus("本机模式（未配置云端）"); return false; }
   try{
     await loadScript(CB_SDK);
-    cbApp = tcb.init({ env: CFG.envId, region: CFG.region });
+    cbApp = cloudbase.init({ env: CFG.envId, region: CFG.region });
     const auth = cbApp.auth({ persistence: "local" });   // 匿名登录，身份持久化在本机
     let state = null; try{ state = await auth.getLoginState(); }catch(e){ state = null; }
     if(!state){ await auth.anonymousAuthProvider().signIn(); }
