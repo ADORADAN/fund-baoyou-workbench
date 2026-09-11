@@ -362,9 +362,9 @@ const $=id=>document.getElementById(id);
    - 实在通不上云就自动退回本机单机模式（localStorage + 复制/粘贴数据包）
    启用步骤见 README；就绪后把 cloudEnabled 改 true 并填好 envId。 */
 const CFG = {
-  cloudEnabled: false,      // CloudBase 就绪后改为 true
-  envId: "",                // CloudBase 环境ID，如 "fund-baoyou-xxxxxxx"
-  region: "ap-guangzhou",   // 环境所在地域（控制台可查，按环境所在地区填）
+  cloudEnabled: true,       // CloudBase 就绪后改为 true
+  envId: "aaaadoradan-d9g1jqtohec5d515b",  // CloudBase 环境ID
+  region: "ap-shanghai",    // 环境所在地域
   collection: "workbench",  // 云数据库集合名（需先在控制台创建，权限设为"所有用户可读写"）
   docId: "main"             // 存放整份工作台数据的文档ID
 };
