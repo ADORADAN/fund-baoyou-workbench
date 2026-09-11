@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="zh-CN" data-page-node-id="tMZbYSbOEEFukzo36f15Xt">
+<head data-page-node-id="UB4UMrWkTziDrESwWJhKIt">
+<meta charset="UTF-8" data-page-node-id="bCaON4POjujCCPzSHkHZQT">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="HWqBVqzrXsZpKzU0pOfvUf">
 <title>基金投顾保有提升工作台</title>
 <style>
   :root{
@@ -138,141 +138,145 @@
   .toast-fixed.show{opacity:1;bottom:34px;}
 </style>
 </head>
-<body>
-<div class="wrap">
+<body data-page-node-id="CwP6vbMKtM7k3EIXAUXHED">
+<div class="wrap" data-page-node-id="r5R3fFJJEUr5GWxxu0838V">
   <!-- header -->
-  <div class="topbar">
-    <div class="brand">
-      <div class="logo">保</div>
-      <div>
-        <h1>基金投顾保有提升工作台</h1>
-        <div class="sub">数据由填报人登记 · 看板自动汇总推进进度</div>
+  <div class="topbar" data-page-node-id="jGa1xwkAYvCVX0OcdV52fs">
+    <div class="brand" data-page-node-id="TUFEchALYHZEbJVZq9vIjc">
+      <div class="logo" data-page-node-id="khufbnyz0oCzG0bSXbuFyH">保</div>
+      <div data-page-node-id="PI7L8uc7GgDgAHOF1xJF2b">
+        <h1 data-page-node-id="IVmVygSEqVLwszLNA9ubp5">基金投顾保有提升工作台</h1>
+        <div class="sub" data-page-node-id="WmwZyXWGf3nGraRiAXjO8E">数据由填报人登记 · 看板自动汇总推进进度</div>
       </div>
     </div>
-    <div class="date-pick">
-      <span style="font-size:13px;color:var(--muted)">统计月份</span>
-      <input type="month" id="curMonth">
+    <div class="date-pick" data-page-node-id="pA6LxTcsSIqVYuFtPeXLIx">
+      <span style="font-size:13px;color:var(--muted)" data-page-node-id="c6froHhMHBmVuDPCghEGwn">统计月份</span>
+      <input type="month" id="curMonth" data-page-node-id="AVS1o2QpZRG0sfKM0HhKBq">
     </div>
   </div>
 
   <!-- tabs -->
-  <div class="tabs">
-    <button class="tab active" data-tab="dash">概览看板</button>
-    <button class="tab" data-tab="entry">登记工作</button>
-    <button class="tab" data-tab="history">历史记录</button>
+  <div class="tabs" data-page-node-id="BSJ0YRqCgVtHPV8InFtCpL">
+    <button class="tab active" data-tab="dash" data-page-node-id="92Ep3JZFJ3Y4EIzUUjIr5a">概览看板</button>
+    <button class="tab" data-tab="entry" data-page-node-id="HM648xNOIN6xmy93NfImvX">登记工作</button>
+    <button class="tab" data-tab="history" data-page-node-id="TWo43JLaJPF5rDtFb0g8uI">历史记录</button>
   </div>
 
   <!-- ============ 概览看板 ============ -->
-  <div class="tabpane" id="pane-dash">
-    <div class="banner">
-      <div>
-        <div id="bannerTitle"><b>—</b></div>
-        <div class="b-sub" id="bannerSub">—</div>
+  <div class="tabpane" id="pane-dash" data-page-node-id="jBsr51uVASPqxWRAjLUWlV">
+    <div class="banner" data-page-node-id="NKLnEqcWZmURwMA9veS58r">
+      <div data-page-node-id="wOgMsEfv4TpJCAUH4VzSPP">
+        <div id="bannerTitle" data-page-node-id="vdp1zsNYBZxlURsvJTYPYA"><b data-page-node-id="wP99kcHdUY0jC3fAEPyVTC">—</b></div>
+        <div class="b-sub" id="bannerSub" data-page-node-id="0klqpbFoTSaqR1elcoZm64">—</div>
       </div>
-      <div class="b-actions">
-        <button class="btn light" onclick="switchTab('entry')">＋ 登记一条</button>
-        <button class="btn light" onclick="copyPkg()">复制数据包</button>
-        <button class="btn light" onclick="pastePkg()">粘贴数据包</button>
+      <div class="b-actions" data-page-node-id="E31abQArH9fBItSCyKKOKf">
+        <button class="btn light" onclick="switchTab('entry')" data-page-node-id="haw0dcDv9D6ZLZ9twOKIen">＋ 登记一条</button>
+        <button class="btn light" onclick="copyPkg()" data-page-node-id="niixAXLxt1lBN27wDsTbao">复制数据包</button>
+        <button class="btn light" onclick="pastePkg()" data-page-node-id="VpyGav2TtJavQQop78tVqk">粘贴数据包</button>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;width:100%">
-        <span class="hint" style="color:rgba(255,255,255,.85)">共享方式：</span>
-        <span id="cloudStatus"><span class="pill no">本机模式（未配置云端）</span></span>
+      <div style="display:flex;align-items:center;gap:10px;width:100%;flex-wrap:wrap" data-page-node-id="EDzjOWpnZZHyC5aGz0b072">
+        <span class="hint" style="color:rgba(255,255,255,.85)" data-page-node-id="S4DLraVvmAmK9RdgvJmI6x">共享方式：</span>
+        <span id="cloudStatus" data-page-node-id="GyClOWbXC896ygCYxAlAKN"><span class="pill no" data-page-node-id="b4CiwzHYCJLuDRCC9DFWj8">本机模式（未配置云端）</span></span>
+        <button class="btn light" style="padding:5px 12px;font-size:12px" onclick="openCloudSettings()">云端设置</button>
+        <button class="btn light" style="padding:5px 12px;font-size:12px" onclick="reconnectCloud()" data-page-node-id="Y1u2HMwMrhGkLBg9hNkPeN">重连云端</button>
+        <button class="btn light" style="padding:5px 12px;font-size:12px" onclick="diagnoseCloud()" data-page-node-id="dPaovGCKOBXxiECY2fmMy7">连接诊断</button>
+        <button class="btn light" style="padding:5px 12px;font-size:12px" onclick="refreshFromCloud()">立即刷新</button>
       </div>
     </div>
 
     <!-- 核心资产看板（以签约/退出/保有余额为主，差距栏忽略） -->
-    <div class="hero" id="heroRow" style="margin-top:16px"><!-- JS渲染 --></div>
+    <div class="hero" id="heroRow" style="margin-top:16px" data-page-node-id="QFdqnCxBzKuEPUEdKTc3nH"><!-- JS渲染 --></div>
 
-    <div class="kpis" id="kpiRow"><!-- JS填充 --></div>
+    <div class="kpis" id="kpiRow" data-page-node-id="gc8fqq1AY206sS634Ej0XA"><!-- JS填充 --></div>
 
-    <div class="grid2">
-      <div class="card">
-        <h3><span class="dot" style="background:var(--primary)"></span>本月记录趋势（联系客户数 / 入金+意向金额）</h3>
-        <div class="legend">
-          <span><i style="background:var(--primary)"></i>联系量（人）</span>
-          <span><i style="background:var(--green)"></i>资金量（万元）</span>
-          <span class="hint">未填报日期为空</span>
+    <div class="grid2" data-page-node-id="isPleEhJIpGiSOFzI8z1fO">
+      <div class="card" data-page-node-id="SBGaTlPbmEpfQbwoeFxwLJ">
+        <h3 data-page-node-id="mLOfokGl6NpOogDWJXB3cG"><span class="dot" style="background:var(--primary)" data-page-node-id="QzyS6XpMujrFXNKCKZLZiO"></span>本月记录趋势（联系客户数 / 入金+意向金额）</h3>
+        <div class="legend" data-page-node-id="fqRCBwNDnZstBfjnDcyZTE">
+          <span data-page-node-id="WeAx06cjk73gDjg4jd0bBI"><i style="background:var(--primary)" data-page-node-id="OQ5O2ChvS0ieJ2FV7bJKRZ"></i>联系量（人）</span>
+          <span data-page-node-id="HP2stLuoeC91rmZMxADzKX"><i style="background:var(--green)" data-page-node-id="LF776zHujvGKrJym2LKItV"></i>资金量（万元）</span>
+          <span class="hint" data-page-node-id="pw180v4NxjsPQeCTpgZqE6">未填报日期为空</span>
         </div>
-        <div class="chart-box"><canvas id="trendChart" height="200"></canvas></div>
+        <div class="chart-box" data-page-node-id="OG3sPn5AwB6gFmJS9YdWlE"><canvas id="trendChart" height="200" data-page-node-id="pM2HH26Lb2sTrIHPgVYT9D"></canvas></div>
       </div>
 
-      <div class="card">
-        <h3><span class="dot" style="background:var(--green)"></span>五条思路推进情况（本月累计）</h3>
-        <div id="approachList"><!-- JS --></div>
+      <div class="card" data-page-node-id="RJ4s5eyzfxRZooyQgAIWut">
+        <h3 data-page-node-id="b8DWGHuBHbfROpSCJVC5fg"><span class="dot" style="background:var(--green)" data-page-node-id="bOIG2GLRS7InXpknxoxH5x"></span>五条思路推进情况（本月累计）</h3>
+        <div id="approachList" data-page-node-id="JsXRQUw7cEZBYaAD0PjiPF"><!-- JS --></div>
       </div>
     </div>
 
-    <div class="grid2">
-      <div class="card">
-        <h3><span class="dot" style="background:var(--orange)"></span>填报覆盖情况（近7个有记录的日期）</h3>
-        <div id="coverList"><!-- JS --></div>
+    <div class="grid2" data-page-node-id="7HBFH040nwh8v1HpmSALAl">
+      <div class="card" data-page-node-id="7nZHKUmhuowaJ2FE3kfKHy">
+        <h3 data-page-node-id="t0fzZW0VMTpzAGDWyDMwkq"><span class="dot" style="background:var(--orange)" data-page-node-id="AAzdFhYJY9C6snfA29q7Tw"></span>填报覆盖情况（近7个有记录的日期）</h3>
+        <div id="coverList" data-page-node-id="kMsLZCDqMxOJcPpuaGrbDl"><!-- JS --></div>
       </div>
-      <div class="card">
-        <h3><span class="dot" style="background:var(--purple)"></span>最近工作记录</h3>
-        <div id="recentList"><!-- JS --></div>
+      <div class="card" data-page-node-id="GtAp3VB4EIC9CvIND2Gdfj">
+        <h3 data-page-node-id="AFY7pNDK9XNXTyYK4bOr5Q"><span class="dot" style="background:var(--purple)" data-page-node-id="0P3POGeIYLvpzAOnnPWR0a"></span>最近工作记录</h3>
+        <div id="recentList" data-page-node-id="lD2qd5tiCu2jmVeFuz5Qz9"><!-- JS --></div>
       </div>
     </div>
   </div>
 
   <!-- ============ 每日填报 ============ -->
-  <div class="tabpane" id="pane-entry" style="display:none">
-    <div class="card">
-      <div class="personbar">
-        <div class="fld" style="flex-direction:row;align-items:center;gap:8px">
-          <label style="min-width:70px">填报日期</label>
-          <input type="date" id="entryDate">
+  <div class="tabpane" id="pane-entry" style="display:none" data-page-node-id="hg0T0vrvSbFT0aLy5ftwvT">
+    <div class="card" data-page-node-id="PTWfhwlEAHTS9Za7KVfPiq">
+      <div class="personbar" data-page-node-id="Gm8FScf60w5Dswsgv0tF4C">
+        <div class="fld" style="flex-direction:row;align-items:center;gap:8px" data-page-node-id="xoAlXxJK0GOKtWxroGoSKw">
+          <label style="min-width:70px" data-page-node-id="hrXyDcDACwCo9trIEbbe0B">填报日期</label>
+          <input type="date" id="entryDate" data-page-node-id="t45PPSWo4wxKnnXBz80C8H">
         </div>
-        <div class="fld" style="flex-direction:row;align-items:center;gap:8px">
-          <label style="min-width:70px">填报人</label>
-          <input type="text" id="entryPerson" placeholder="填写姓名">
+        <div class="fld" style="flex-direction:row;align-items:center;gap:8px" data-page-node-id="dQzt4biSEPmV08SMCTSzZC">
+          <label style="min-width:70px" data-page-node-id="q7FRFLd4GfkDwLywBodE3P">填报人</label>
+          <input type="text" id="entryPerson" placeholder="填写姓名" data-page-node-id="z8fPPJhJJmkcCjdRfeUHDu">
         </div>
-        <div style="margin-left:auto;font-size:12px;color:var(--muted)" id="entryState"></div>
+        <div style="margin-left:auto;font-size:12px;color:var(--muted)" id="entryState" data-page-node-id="AxPyvgQXvBqVsceCJbhlO5"></div>
       </div>
 
-      <div id="entrySections"><!-- JS 生成五个思路表单 --></div>
+      <div id="entrySections" data-page-node-id="Z4Kcsz1EUdWmRvrPgrdpDG"><!-- JS 生成五个思路表单 --></div>
 
-      <div class="save-bar">
-        <button class="btn primary" onclick="saveEntry(false)">保存记录</button>
-        <button class="btn ghost" onclick="saveEntry(true)">保存并清空重填</button>
-        <span class="toast-msg" id="saveMsg"></span>
+      <div class="save-bar" data-page-node-id="5HAMYFgv3h2bXmFQigGNVY">
+        <button class="btn primary" onclick="saveEntry(false)" data-page-node-id="L93Qbxe5odStTfSYj5BXXk">保存记录</button>
+        <button class="btn ghost" onclick="saveEntry(true)" data-page-node-id="o2ZLaBCA4OKRS20sKFTknk">保存并清空重填</button>
+        <span class="toast-msg" id="saveMsg" data-page-node-id="T2VYG9xsEs8L4eGg301uv8"></span>
       </div>
     </div>
   </div>
 
   <!-- ============ 历史记录 ============ -->
-  <div class="tabpane" id="pane-history" style="display:none">
-    <div class="card">
-      <div class="filterbar">
-        <input type="date" id="fDate">
-        <input type="text" id="fPerson" placeholder="筛选填报人" style="width:140px">
-        <select id="fApproach">
-          <option value="">全部思路</option>
+  <div class="tabpane" id="pane-history" style="display:none" data-page-node-id="1M7BohPPd3lsut2vWJHhQR">
+    <div class="card" data-page-node-id="qmVDAWYcClDAggjHLjxGDr">
+      <div class="filterbar" data-page-node-id="oYrkoXCCBZWuEt1bQ8fWAJ">
+        <input type="date" id="fDate" data-page-node-id="CBpVweZBWAJmfJhQf4GZC7">
+        <input type="text" id="fPerson" placeholder="筛选填报人" style="width:140px" data-page-node-id="CwyT022orrxD85Q4iHKSsH">
+        <select id="fApproach" data-page-node-id="gSJGjjg7nXg4KRcHdCFPuT">
+          <option value="" data-page-node-id="t0wZmprJLtHxDK9qH9LACq">全部思路</option>
         </select>
-        <button class="btn sm ghost" onclick="resetFilter()">重置</button>
-        <button class="btn sm primary" onclick="exportCSV()">导出CSV</button>
+        <button class="btn sm ghost" onclick="resetFilter()" data-page-node-id="Rsf5mgfiKFem1Ek2C3q257">重置</button>
+        <button class="btn sm primary" onclick="exportCSV()" data-page-node-id="1K2k5Ai5QYHcJSsBwBwFVj">导出CSV</button>
       </div>
-      <div style="overflow:auto;max-height:560px">
-        <table>
-          <thead><tr>
-            <th>日期</th><th>填报人</th><th>状态</th><th>做了什么 / 关键数据</th>
+      <div style="overflow:auto;max-height:560px" data-page-node-id="mdSSoTJ7dK1tIs2w1OLezZ">
+        <table data-page-node-id="tUTHXHTjAe6qhnkoJG9mfm">
+          <thead data-page-node-id="cy4Iq6wzhGSg5IyEqxBjmM"><tr data-page-node-id="6UxLACqATo3CEqWep9pz91">
+            <th data-page-node-id="xo8PLOrsgb6Adlw9mSZQVh">日期</th><th data-page-node-id="wnUjGYmUheZ4x4AoS9f00U">填报人</th><th data-page-node-id="rWcSqS1legx04pnRnUxSxq">状态</th><th data-page-node-id="wiB6JdqESAgAQqgOQWNoFE">做了什么 / 关键数据</th>
           </tr></thead>
-          <tbody id="historyBody"></tbody>
+          <tbody id="historyBody" data-page-node-id="Sgs2odIp9N7pg6NJtzkkpy"></tbody>
         </table>
       </div>
     </div>
 
-    <div class="card">
-      <h3><span class="dot" style="background:var(--teal)"></span>每周规模快照（驱动顶部“签约 / 退出 / 保有余额”看板）</h3>
-      <div class="hint" style="margin-bottom:12px">每周由负责人填一次，顶部看板自动显示最新一期。</div>
-      <div class="aum-stat">
-        <div class="fld"><label>周期（如 2026-W37）</label><input type="text" id="snap_week" placeholder="2026-W37"></div>
-        <div class="fld"><label>本周签约（万元）</label><input type="number" id="snap_sign" min="0" step="0.01"></div>
-        <div class="fld"><label>本周退出（万元）</label><input type="number" id="snap_exit" min="0" step="0.01"></div>
-        <div class="fld"><label>保有余额（万元）</label><input type="number" id="snap_balance" min="0" step="0.01"></div>
-        <div class="fld"><label>备注</label><input type="text" id="snap_note" placeholder="可选"></div>
-        <div style="display:flex;align-items:flex-end"><button class="btn green" onclick="saveSnapshot()" style="width:100%">保存规模快照</button></div>
+    <div class="card" data-page-node-id="xEmsmtBZkk5hm1gUfAJra7">
+      <h3 data-page-node-id="X2eAEZvB4HKVzIiCexhDYG"><span class="dot" style="background:var(--teal)" data-page-node-id="frfUHH40DIU2Hp5Pvx1WcH"></span>每周规模快照（驱动顶部“签约 / 退出 / 保有余额”看板）</h3>
+      <div class="hint" style="margin-bottom:12px" data-page-node-id="CAQnOzAceZkSOemhMQQ4vB">每周由负责人填一次，顶部看板自动显示最新一期。</div>
+      <div class="aum-stat" data-page-node-id="OnsBUxwMz0pFhpLJRheKbf">
+        <div class="fld" data-page-node-id="1v1lIfNbEfweiteCUjgYoX"><label data-page-node-id="9q0Jh65EH8Kp2kejkQFxLy">周期（如 2026-W37）</label><input type="text" id="snap_week" placeholder="2026-W37" data-page-node-id="4vqLSQGUnqvHjqu3ogLRkg"></div>
+        <div class="fld" data-page-node-id="SdLGojhHdHi2dfIFdDqNB4"><label data-page-node-id="CkpxADYDw48AVqiU7zrQth">本周签约（万元）</label><input type="number" id="snap_sign" min="0" step="0.01" data-page-node-id="6rDyzxtqLBmTv046hubhLU"></div>
+        <div class="fld" data-page-node-id="b9aMgJCHm9gTMBG1laNQQe"><label data-page-node-id="iNfHDj4wvuCqbXWXm3FHqf">本周退出（万元）</label><input type="number" id="snap_exit" min="0" step="0.01" data-page-node-id="KCAmV7nWYMvG2JGnHu2wK3"></div>
+        <div class="fld" data-page-node-id="moV2uxtyT7y12NU4DP4DZe"><label data-page-node-id="tYGeumfuaY3IdXkinYgw3U">保有余额（万元）</label><input type="number" id="snap_balance" min="0" step="0.01" data-page-node-id="FnYLhBf67kVNTLgR2sb485"></div>
+        <div class="fld" data-page-node-id="RddxkbNTIf0ResHCWTWHZ2"><label data-page-node-id="PAcNGgZCmAwVIuvQeLsvE9">备注</label><input type="text" id="snap_note" placeholder="可选" data-page-node-id="0vQEIH80vgugIoteVNUjzp"></div>
+        <div style="display:flex;align-items:flex-end" data-page-node-id="hTvujOmpTQTL03Fgmfnaet"><button class="btn green" onclick="saveSnapshot()" style="width:100%" data-page-node-id="eHcrNdVbCFSzRyPgr9cxLf">保存规模快照</button></div>
       </div>
-      <div id="snapList" style="margin-top:12px"></div>
+      <div id="snapList" style="margin-top:12px" data-page-node-id="v99OJRHxGoY4ODlk1HB4TY"></div>
     </div>
   </div>
 
@@ -280,16 +284,16 @@
 </div>
 
 <!-- toast -->
-<div class="toast-fixed" id="toast"></div>
+<div class="toast-fixed" id="toast" data-page-node-id="NNgeE2MsGdesZ2AA4khzZu"></div>
 
 <!-- import modal -->
-<div class="modal-mask" id="importMask">
-  <div class="modal">
-    <h3>导入数据</h3>
+<div class="modal-mask" id="importMask" data-page-node-id="4ERr6Cxm7FMXtc77pexAUR">
+  <div class="modal" data-page-node-id="t0uf13OkcUG3sAVpqRgZP8">
+    <h3 data-page-node-id="te7OS3ue0vtnZGrHM9o9xe">导入数据</h3>
     <textarea id="importArea" placeholder="粘贴 JSON 数据…"></textarea>
-    <div class="btns">
-      <button class="btn ghost" onclick="closeImport()">取消</button>
-      <button class="btn primary" onclick="doImport()">导入并合并</button>
+    <div class="btns" data-page-node-id="NbUtVKW6s9FqrHaiBtmSCH">
+      <button class="btn ghost" onclick="closeImport()" data-page-node-id="iAc6HK7Rw7Wg3jGJlEThgc">取消</button>
+      <button class="btn primary" onclick="doImport()" data-page-node-id="SEd3Xeiq2kXVZo4gMWDHVN">导入并合并</button>
     </div>
   </div>
 </div>
@@ -366,7 +370,18 @@ const CFG = {
   envId: "aaaadoradan-d9g1jqtohec5d515b",  // CloudBase 环境ID
   region: "ap-shanghai",    // 环境所在地域
   collection: "workbench",  // 云数据库集合名（需先在控制台创建，权限设为"所有用户可读写"）
-  docId: "main"             // 存放整份工作台数据的文档ID
+  docId: "main",            // 存放整份工作台数据的文档ID
+
+  /* ---- 内置默认值：填好之后全组人打开页面就直接连上，不用各自配置 ----
+     provider 可选 "supabase" / "github" / "cloudbase" / "off"（留空则用各自浏览器里的设置） */
+  provider: "",
+  supabaseUrl: "",          // 例：https://xxxx.supabase.co
+  supabaseKey: "",          // anon public key
+  supabaseTable: "workbench",
+  ghOwner: "ADORADAN",      // 例：ADORADAN
+  ghRepo: "fund-baoyou-workbench",   // 例：fund-baoyou-workbench
+  ghPath: "data/shared.json",
+  ghToken: ""               // 只勾这一个仓库 Contents 读写的 fine-grained token
 };
 const CB_SDK = "https://static.cloudbase.net/cloudbase-js-sdk/2.9.0/cloudbase.full.js";
 
@@ -381,25 +396,274 @@ function loadScript(src){
 function cloudReady(){ return !!(CFG.cloudEnabled && CFG.envId); }
 let cbApp = null, cbDb = null, cbWatch = null;   // CloudBase 运行时状态
 
+/* ================= 后端 Provider：可插拔，页面上一个弹窗就能换 ================= */
+const CFG_KEY = "wb_cloud_cfg_v1";
+let PROV = null;   // { name, read(), write(store) }
+
+function loadCfg(){
+  try{ return JSON.parse(localStorage.getItem(CFG_KEY)) || null; }catch(e){ return null; }
+}
+function saveCfg(c){ localStorage.setItem(CFG_KEY, JSON.stringify(c)); }
+/* 本机设置优先，其次用页面里内置的默认值（这样全组人不用各自配一遍） */
+function activeCfg(){
+  const c = loadCfg();
+  if(c && c.provider) return c;
+  if(CFG.provider) return {
+    provider: CFG.provider,
+    url: CFG.supabaseUrl, key: CFG.supabaseKey, table: CFG.supabaseTable,
+    owner: CFG.ghOwner, repo: CFG.ghRepo, path: CFG.ghPath, token: CFG.ghToken
+  };
+  return null;
+}
+function b64utf8(str){
+  const bytes = new TextEncoder().encode(str);
+  let bin = ""; bytes.forEach(b=>bin += String.fromCharCode(b));
+  return btoa(bin);
+}
+function b64decode(b64){
+  const bin = atob(String(b64).replace(/\s/g,""));
+  const bytes = Uint8Array.from(bin, c=>c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+/* —— Supabase：只用 REST，不引外部 SDK —— */
+function makeSupabase(cfg){
+  const base = String(cfg.url||"").replace(/\/+$/,"");
+  const tbl  = encodeURIComponent(cfg.table || "workbench");
+  const H = ()=>({ "apikey": cfg.key, "Authorization": "Bearer "+cfg.key, "Content-Type": "application/json" });
+  return {
+    name: "Supabase",
+    async read(){
+      const r = await fetch(`${base}/rest/v1/${tbl}?id=eq.main&select=data`, { headers: H() });
+      const txt = await r.text();
+      if(!r.ok) throw new Error("读取失败 " + r.status + " " + txt.slice(0,180));
+      let arr = []; try{ arr = JSON.parse(txt); }catch(e){ throw new Error("返回不是 JSON：" + txt.slice(0,120)); }
+      return (arr && arr[0] && arr[0].data) ? arr[0].data : null;
+    },
+    async write(s){
+      const r = await fetch(`${base}/rest/v1/${tbl}?on_conflict=id`, {
+        method: "POST",
+        headers: Object.assign(H(), { "Prefer": "resolution=merge-duplicates,return=minimal" }),
+        body: JSON.stringify({ id: "main", data: s, updated_at: new Date().toISOString() })
+      });
+      if(!r.ok) throw new Error("写入失败 " + r.status + " " + (await r.text()).slice(0,180));
+      return s;
+    }
+  };
+}
+
+/* —— GitHub 仓库当后端：零注册，用你现有的仓库 —— */
+function makeGithub(cfg){
+  const api = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${String(cfg.path||"data/shared.json").split("/").map(encodeURIComponent).join("/")}`;
+  const H = ()=>({ "Authorization": "Bearer "+cfg.token, "Accept": "application/vnd.github+json", "Content-Type": "application/json" });
+  let sha = null;
+  const P = {
+    name: "GitHub",
+    async read(){
+      const r = await fetch(api, { headers: H() });
+      if(r.status === 404) return null;
+      const txt = await r.text();
+      if(!r.ok) throw new Error("读取失败 " + r.status + " " + txt.slice(0,180));
+      let j = null; try{ j = JSON.parse(txt); }catch(e){ throw new Error("返回不是 JSON：" + txt.slice(0,120)); }
+      sha = j.sha;
+      let o = null; try{ o = JSON.parse(b64decode(j.content || "")); }catch(e){ o = null; }
+      if(!o) return null;
+      return o.data ? o.data : (Array.isArray(o.logs) ? o : null);
+    },
+    async write(s){
+      if(sha === null){ try{ await P.read(); }catch(e){} }
+      const body = { message: "workbench data " + new Date().toISOString(), content: b64utf8(JSON.stringify({ data: s })) };
+      if(sha) body.sha = sha;
+      const r = await fetch(api, { method: "PUT", headers: H(), body: JSON.stringify(body) });
+      if(!r.ok) throw new Error("写入失败 " + r.status + " " + (await r.text()).slice(0,180));
+      let j = null; try{ j = await r.json(); }catch(e){}
+      if(j && j.content && j.content.sha) sha = j.content.sha;
+      return s;
+    }
+  };
+  return P;
+}
+
+/* —— 腾讯云 CloudBase（原方案，配好了也能用） —— */
+const CBPROV = {
+  name: "CloudBase",
+  async read(){
+    const r = await cbDb.collection(CFG.collection).doc(CFG.docId).get();
+    return pickStore((r && r.data) ? r.data[0] : null);
+  },
+  async write(s){
+    const latest = await CBPROV.read();
+    const merged = latest ? mergeStore(latest, s) : s;
+    await cbDb.collection(CFG.collection).doc(CFG.docId).set({ data: merged });
+    return merged;
+  }
+};
+
 /* —— CloudBase 初始化：匿名登录 → 确保文档存在 → 开启实时订阅 —— */
 async function initCloud(){
-  if(!cloudReady()){ updateCloudStatus("本机模式（未配置云端）"); return false; }
-  try{
-    await loadScript(CB_SDK);
-    cbApp = cloudbase.init({ env: CFG.envId, region: CFG.region });
-    const auth = cbApp.auth({ persistence: "local" });   // 匿名登录，身份持久化在本机
-    let state = null; try{ state = await auth.getLoginState(); }catch(e){ state = null; }
-    if(!state){ await auth.signInAnonymously(); }   // 匿名登录（js-sdk v2 无登录交互）
-    cbDb = cbApp.database();
-    await ensureDoc();
-    startWatch();
-    updateCloudStatus("云端已连接 · 实时共享");
-    return true;
-  }catch(e){
-    console.warn("CloudBase init failed", e);
-    cbDb = null;
-    updateCloudStatus("云端连接失败（已退回本机）", true);
+  const cfg = activeCfg();
+  updateCloudStatus("正在连接云端…", false, "");
+
+  if(cfg && cfg.provider === "off"){
+    PROV = null;
+    updateCloudStatus("本机模式（未启用云端）", true, "点右侧「云端设置」挑一个后端");
     return false;
+  }
+
+  if(cfg && cfg.provider === "supabase"){
+    if(!(cfg.url && cfg.key)){ PROV=null; updateCloudStatus("Supabase 配置不完整 · 点此设置", true, "缺 url 或 key"); return false; }
+    try{
+      PROV = makeSupabase(cfg);
+      await PROV.read();                    // 先探一次，通就说明 ok
+      updateCloudStatus("Supabase 共享 · 已连接", false, "");
+      return true;
+    }catch(e){
+      PROV = null;
+      updateCloudStatus("Supabase 连接失败 · 点此诊断", true, errText(e));
+      return false;
+    }
+  }
+
+  if(cfg && cfg.provider === "github"){
+    if(!(cfg.owner && cfg.repo && cfg.token)){ PROV=null; updateCloudStatus("GitHub 配置不完整 · 点此设置", true, "缺 owner / repo / token"); return false; }
+    try{
+      PROV = makeGithub(cfg);
+      await PROV.read();
+      updateCloudStatus("GitHub 共享 · 已连接", false, "");
+      return true;
+    }catch(e){
+      PROV = null;
+      updateCloudStatus("GitHub 连接失败 · 点此诊断", true, errText(e));
+      return false;
+    }
+  }
+
+  if(cfg && cfg.provider === "cloudbase"){
+    if(!cloudReady()){ updateCloudStatus("本机模式（未配置云端）", true, "CFG.cloudEnabled 为 false 或 envId 为空"); return false; }
+    try{
+      if(!window.tcb) await loadScript(CB_SDK);
+      cbApp = tcb.init({ env: CFG.envId, region: CFG.region });
+      const auth = cbApp.auth({ persistence: "local" });
+      let state = null; try{ state = await auth.getLoginState(); }catch(e){ state = null; }
+      if(!state){ await auth.anonymousAuthProvider().signIn(); }
+      cbDb = cbApp.database();
+      await ensureDoc();
+      PROV = CBPROV;
+      startWatch();
+      updateCloudStatus("CloudBase 共享 · 已连接", false, "");
+      return true;
+    }catch(e){
+      console.warn("CloudBase init failed", e);
+      cbDb = null; PROV = null;
+      updateCloudStatus("CloudBase 连接失败 · 点此诊断", true, errText(e));
+      return false;
+    }
+  }
+
+  PROV = null;
+  updateCloudStatus("未配置云端（本机模式）· 点「云端设置」", true, "选 Supabase 或 GitHub 都行");
+  return false;
+}
+
+/* —— 邀请链接：?gh=token 打开即自动配好，并把 token 从地址栏抹掉 ——
+   用途：把配好的链接发给同事，他们点一下就接入共享，不用每人手动填。
+   注意：token 只走微信/企微私发，千万别粘进仓库文件里（GitHub 会扫描公开仓库并自动吊销）。 */
+function applyUrlCfg(){
+  try{
+    const u = new URL(location.href);
+    const t = u.searchParams.get("gh") || u.searchParams.get("t");
+    if(!t) return false;
+    const base = { provider: "github", owner: CFG.ghOwner, repo: CFG.ghRepo, path: CFG.ghPath || "data/shared.json" };
+    saveCfg(Object.assign(base, loadCfg() || {}, { provider: "github", token: t }));
+    u.searchParams.delete("gh"); u.searchParams.delete("t");
+    history.replaceState({}, "", u.toString());
+    return true;
+  }catch(e){ return false; }
+}
+function copyInviteLink(){
+  const el = document.getElementById("cfg_token");
+  const t = (el && el.value.trim()) || (loadCfg() || {}).token || CFG.ghToken || "";
+  if(!t){ toast("先填 token 再生成链接"); return; }
+  let url = "";
+  try{ const u = new URL(location.origin + location.pathname); u.searchParams.set("gh", t); url = u.toString(); }
+  catch(e){ url = location.origin + location.pathname + "?gh=" + encodeURIComponent(t); }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(()=>toast("邀请链接已复制，发给同事即可"), ()=>prompt("手动复制这个链接发给同事：", url));
+  }else{
+    prompt("手动复制这个链接发给同事：", url);
+  }
+}
+
+/* —— 云端设置弹窗：换后端不用改代码 —— */
+function openCloudSettings(){
+  const c = loadCfg() || {};
+  const p = c.provider || CFG.provider || "";
+  const d = { url: CFG.supabaseUrl, key: CFG.supabaseKey, table: CFG.supabaseTable || "workbench",
+              owner: CFG.ghOwner, repo: CFG.ghRepo, path: CFG.ghPath || "data/shared.json", token: CFG.ghToken };
+  const v = k=> (c[k] !== undefined && c[k] !== "") ? c[k] : (d[k] || "");
+  const f = (label, key, ph)=>`<label style="display:block;margin:10px 0 4px;font-size:12.5px;color:#4b5563">${label}</label>
+    <input id="cfg_${key}" value="${String(v(key)).replace(/"/g,"&quot;")}" placeholder="${ph||""}" style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:13px">`;
+  const html = `
+    <div style="font-size:13px;color:#4b5563;line-height:1.7;margin-bottom:6px">
+      选一个后端填进去，保存后本浏览器生效；想让全组人默认生效，把值发我，我写进页面里。
+    </div>
+    <label style="display:block;margin:10px 0 4px;font-size:12.5px;color:#4b5563"><b>后端类型</b></label>
+    <select id="cfg_provider" onchange="toggleCfgFields()" style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:13px">
+      <option value="">（未配置 · 本机模式）</option>
+      <option value="supabase">Supabase（推荐，免费、数据私有）</option>
+      <option value="github">GitHub 仓库（零注册，数据放你现有仓库）</option>
+      <option value="cloudbase">腾讯云 CloudBase</option>
+      <option value="off">就用本机，不联网</option>
+    </select>
+    <div id="cfg_sb" style="display:none">${f("项目 URL","url","https://xxxx.supabase.co")}${f("anon public key","key","eyJhbGciOi...")}${f("表名","table","workbench")}</div>
+    <div id="cfg_gh" style="display:none">${f("仓库 owner","owner","ADORADAN")}${f("仓库名","repo","fund-baoyou-workbench")}${f("数据文件路径","path","data/shared.json")}${f("Personal Access Token","token","粘贴上一步生成的那串钥匙")}
+      <div style="margin-top:8px;font-size:12px;color:#6b7280;line-height:1.7">没 token？点
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener" style="color:#185FA5">这里生成</a>：
+        Repository access 选 <b>Only select repositories</b> 勾这一个仓库 → Permissions → Contents 改成 <b>Read and write</b> → Generate → 复制。
+      </div>
+      <div style="margin-top:8px"><button class="btn sm" type="button" onclick="copyInviteLink()">生成邀请链接（发给同事，他们点开即接入）</button></div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+      <button class="btn" onclick="document.getElementById('cloudModal').remove()">取消</button>
+      <button class="btn primary" onclick="applyCloudSettings()">保存并重载</button>
+    </div>`;
+  showCloudModal("云端设置", html);
+  const sel = document.getElementById("cfg_provider");
+  if(sel) sel.value = p;
+  toggleCfgFields();
+}
+function toggleCfgFields(){
+  const p = (document.getElementById("cfg_provider")||{}).value || "";
+  const sb = document.getElementById("cfg_sb"), gh = document.getElementById("cfg_gh");
+  if(sb) sb.style.display = (p === "supabase") ? "block" : "none";
+  if(gh) gh.style.display = (p === "github") ? "block" : "none";
+}
+function applyCloudSettings(){
+  const g = id=>{ const e = document.getElementById(id); return e ? e.value.trim() : ""; };
+  const cfg = {
+    provider: g("cfg_provider"),
+    url: g("cfg_url"), key: g("cfg_key"), table: g("cfg_table") || "workbench",
+    owner: g("cfg_owner"), repo: g("cfg_repo"), path: g("cfg_path") || "data/shared.json", token: g("cfg_token")
+  };
+  saveCfg(cfg);
+  location.reload();
+}
+function errText(e){
+  if(!e) return "";
+  return String(e.message || e.error_description || e.errMsg || e.error || e);
+}
+/* 手动重连：重新走一遍初始化，并把本机已有的数据补推到云端 */
+async function reconnectCloud(){
+  cbDb = null; cbWatch = null; watchOK = false;
+  try{ if(cbWatch && cbWatch.close) cbWatch.close(); }catch(e){}
+  const ok = await initCloud();
+  if(ok){
+    store = await pullFromCloud();
+    renderAll();
+    cloudSaveNow(store);      // 把本机尚未上传的条目补推上去
+    toast("已重连云端并同步");
+  }else{
+    diagnoseCloud();
   }
 }
 async function ensureDoc(){
@@ -421,12 +685,19 @@ function applyRemote(remote){
   renderAll();
   updateCloudStatus("实时已更新");
 }
-/* 从云端读取最新 store */
+/* 从云端读取最新 store（返回 store 本身，没有则 null） */
 async function cloudFetchRaw(){
-  if(!cbDb) return null;
-  const r = await cbDb.collection(CFG.collection).doc(CFG.docId).get();
-  const d = (r && r.data && r.data[0]) ? r.data[0] : null;
-  return (d && d.data) ? { store: d.data } : null;
+  if(!PROV) return null;
+  return await PROV.read();
+}
+/* 兼容 watch / get 两种返回形态，取出真正的 store 对象 */
+function pickStore(raw){
+  if(!raw) return null;
+  const isStore = o => !!(o && typeof o === "object" && Array.isArray(o.logs));
+  if(isStore(raw.data)) return raw.data;
+  if(isStore(raw.data && raw.data.data)) return raw.data.data;
+  if(isStore(raw)) return raw;
+  return null;
 }
 /* 合并两份 store（按天然主键去重，收敛多人改写） */
 function mergeStore(a, b){
@@ -448,49 +719,165 @@ function mergeStore(a, b){
   out.aum = [...am.values()];
   return out;
 }
-/* 推云端：先拉最新合并再整文档覆盖（多人并发靠主键去重收敛） */
-async function cloudPush(store){
+/* 推云端：先拉最新合并再整份覆盖（多人并发靠主键去重收敛） */
+async function cloudPush(s){
+  if(!PROV) return s;
   const latest = await cloudFetchRaw();
-  const prev = latest ? latest.store : null;
-  const merged = prev ? mergeStore(prev, store) : store;
-  await cbDb.collection(CFG.collection).doc(CFG.docId).set({ data: merged });
+  const merged = latest ? mergeStore(latest, s) : s;
+  await PROV.write(merged);
   return merged;
 }
 /* 云端同步版 save()：本机缓存 + 异步推云端 */
 function cloudSaveNow(s){
   localStorage.setItem(LS_KEY, JSON.stringify(s));
-  if(cloudReady() && cbDb){
-    cloudPush(s).then(merged=>{ localStorage.setItem(LS_KEY, JSON.stringify(merged)); updateCloudStatus("云端已保存"); })
-      .catch(e=>{ console.warn("云同步失败", e); updateCloudStatus("同步失败（已存本机）", true); });
+  if(PROV){
+    cloudPush(s).then(merged=>{ localStorage.setItem(LS_KEY, JSON.stringify(merged)); updateCloudStatus("云端已保存", false, ""); })
+      .catch(e=>{ console.warn("云同步失败", e); updateCloudStatus("同步失败（已存本机）", true, errText(e)); });
   }
 }
-let cloudStatusEl = null;
-function updateCloudStatus(msg, bad){
+let cloudStatusEl = null, lastCloudTip = "";
+function updateCloudStatus(msg, bad, tip){
+  lastCloudTip = tip || lastCloudTip || "";
   const el = document.getElementById("cloudStatus");
-  if(el) el.innerHTML = `<span class="pill ${bad?'warn':'ok'}">${msg}</span>`;
+  if(!el) return;
+  const t = lastCloudTip ? String(lastCloudTip).replace(/"/g, "&quot;") : "";
+  const click = bad ? ` style="cursor:pointer" onclick="diagnoseCloud()"` : "";
+  el.innerHTML = `<span class="pill ${bad?'warn':'ok'}"${t?` title="${t}"`:""}${click}>${msg}</span>`;
 }
 async function pullFromCloud(){
-  if(!cloudReady() || !cbDb) return load();
+  if(!PROV) return load();
   try{
-    const rec = await cloudFetchRaw();
-    if(rec && rec.store){ localStorage.setItem(LS_KEY, JSON.stringify(rec.store)); return rec.store; }
+    const remote = await cloudFetchRaw();
+    if(remote){ localStorage.setItem(LS_KEY, JSON.stringify(remote)); return remote; }
   }catch(e){}
   return load();
 }
-/* 实时订阅：本地任何人一填，云端文档变化，全体在线的人即时收到并重绘 */
+/* 实时订阅：任何人一填，云端文档变化，全体在线的人即时收到并重绘 */
+let watchOK = false, pollTimer = null;
 function startWatch(){
   if(!cbDb) return;
-  cbWatch = cbDb.collection(CFG.collection).doc(CFG.docId).watch({
-    onChange: snap=>{
-      const ds = (snap && snap.docs) ? snap.docs : [];
-      const d = (ds[0] && ds[0].data) ? ds[0] : null;
-      if(d && d.data) applyRemote(d.data);
-    },
-    onError: e=>{ console.warn("实时监听中断", e); updateCloudStatus("实时监听中断", true); }
-  });
+  try{
+    cbWatch = cbDb.collection(CFG.collection).doc(CFG.docId).watch({
+      onChange: snap=>{
+        watchOK = true;
+        const ds = (snap && snap.docs) ? snap.docs : [];
+        const p = pickStore(ds[0]);
+        if(p) applyRemote(p);
+      },
+      onError: e=>{
+        console.warn("实时监听中断", e);
+        watchOK = false;
+        updateCloudStatus("实时监听中断 · 已切轮询", true, errText(e) || "集合权限不足会导致 watch 被拒绝");
+        startPoll();
+      }
+    });
+    watchOK = true;
+  }catch(e){
+    watchOK = false; startPoll();
+  }
+}
+/* 监听不可用时的兜底：每 20 秒拉一次云端 */
+function startPoll(){
+  if(pollTimer) return;
+  pollTimer = setInterval(async ()=>{
+    if(!PROV) return;
+    try{
+      const remote = await cloudFetchRaw();
+      if(remote){
+        const merged = mergeStore(remote, store);
+        if(JSON.stringify(merged) !== JSON.stringify(store)){
+          store = merged;
+          localStorage.setItem(LS_KEY, JSON.stringify(merged));
+          renderAll();
+          updateCloudStatus("已同步（轮询）", false, "");
+        }
+      }
+    }catch(e){ /* 静默，下一轮再试 */ }
+  }, 20000);
 }
 async function refreshFromCloud(){
-  store = await pullFromCloud(); renderAll(); updateCloudStatus("已刷新");
+  store = await pullFromCloud(); renderAll(); updateCloudStatus("已刷新", false, "");
+}
+
+/* —— 连接诊断：一步步定位到底卡在哪 —— */
+async function diagnoseCloud(){
+  const rows = [];
+  const add = (ok, html)=>rows.push(`<div style="padding:8px 0;border-bottom:1px dashed #e5e7eb;line-height:1.6"><b style="color:${ok?'#16a34a':'#dc2626'}">${ok?'✓':'✗'}</b> ${html}</div>`);
+  const cfg = activeCfg();
+  const pv  = (cfg && cfg.provider) ? cfg.provider : "未配置";
+  add(!!PROV, `当前后端：<b>${PROV ? PROV.name : "无（本机模式）"}</b>　·　设置项 provider = ${pv}`);
+  if(!PROV && !cfg){
+    showCloudModal("云端连接诊断", rows.join("") + `<div style="margin-top:12px;font-size:12.5px;color:#4b5563;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 12px;line-height:1.8">还没选后端。点页面右上角 <b>「云端设置」</b>，挑 Supabase 或 GitHub 填进去就行，不用碰腾讯云。</div>`);
+    return;
+  }
+  if(cfg && (cfg.provider === "supabase" || cfg.provider === "github")){
+    let readOK = false, readMsg = "";
+    const t0 = Date.now();
+    try{ const r = await cloudFetchRaw(); readOK = true; readMsg = r ? "读到数据" : "通了，但云端还没有数据（首次保存后才有）"; }
+    catch(e){ readMsg = errText(e); }
+    add(readOK, `读取${cfg.provider==="supabase"?" Supabase 表":" GitHub 文件"}：${readOK?"成功":"失败"}（${Date.now()-t0}ms）<div style="color:#6b7280;font-size:12px">${readMsg}</div>`);
+    let writeOK = false, writeMsg = "";
+    try{ await PROV.write(load()); writeOK = true; }
+    catch(e){ writeMsg = errText(e); }
+    add(writeOK, `写入测试：${writeOK?"成功":"失败"} ${writeMsg?`<div style="color:#6b7280;font-size:12px">${writeMsg}</div>`:""}`);
+    const tip = cfg.provider === "supabase"
+      ? `Supabase 常见原因：① 表没建（在 SQL Editor 里跑建表语句）；② 用了 service_role key 而不是 anon key；③ RLS 开了但没给 anon 建策略。`
+      : `GitHub 常见原因：① token 过期或没勾 Contents 读写；② owner/repo 拼错；③ 数据文件路径不对。`;
+    showCloudModal("云端连接诊断", rows.join("") + `<div style="margin-top:12px;font-size:12.5px;color:#4b5563;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 12px;line-height:1.8">${tip}</div>`);
+    return;
+  }
+  add(true, `当前访问域名：<code>${location.hostname}</code>（必须加进 CloudBase 安全域名）`);
+  add(!!(CFG.cloudEnabled && CFG.envId), `云端配置：cloudEnabled=${CFG.cloudEnabled}，envId=<code>${CFG.envId||"空"}</code>，集合=<code>${CFG.collection}</code>`);
+  let sdkOK = false;
+  try{ if(!window.tcb) await loadScript(CB_SDK); sdkOK = !!window.tcb; }catch(e){}
+  add(sdkOK, `CloudBase SDK 加载${sdkOK?"成功":"失败"}`);
+  let authOK = false, authMsg = "";
+  if(sdkOK){
+    try{
+      const app = tcb.init({ env: CFG.envId, region: CFG.region });
+      const a = app.auth({ persistence: "local" });
+      let st = null; try{ st = await a.getLoginState(); }catch(e){ st = null; }
+      if(!st) await a.anonymousAuthProvider().signIn();
+      authOK = true;
+    }catch(e){
+      authMsg = errText(e);
+      if(/域名|domain|origin|白名单|安全/i.test(authMsg)) authMsg += `　→ 多半是没把 <code>${location.hostname}</code> 加进安全域名`;
+    }
+  }
+  add(authOK, `匿名登录${authOK?"成功":"失败"} ${authMsg?`<div style="color:#6b7280;font-size:12px">${authMsg}</div>`:""}<div style="color:#6b7280;font-size:12px">控制台 → 登录授权 → 开启「匿名登录」</div>`);
+  let dbOK = false, dbMsg = "";
+  if(authOK){
+    try{
+      const app = tcb.init({ env: CFG.envId, region: CFG.region });
+      await app.database().collection(CFG.collection).doc(CFG.docId).get();
+      dbOK = true;
+    }catch(e){ dbMsg = errText(e); }
+  }
+  add(dbOK, `读取集合 <code>${CFG.collection}/${CFG.docId}</code>${dbOK?"成功":"失败"} ${dbMsg?`<div style="color:#6b7280;font-size:12px">${dbMsg}</div>`:""}<div style="color:#6b7280;font-size:12px">控制台 → 数据库 → 新建集合 <code>${CFG.collection}</code>，权限设为「所有用户可读写」</div>`);
+  add(!!(cbDb && watchOK), `实时监听${(cbDb && watchOK)?"已建立":"未建立"}（连通后点页面上的「重连云端」）`);
+  const tip = `<div style="margin-top:12px;font-size:12.5px;color:#4b5563;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 12px;line-height:1.8">
+    <b>排查顺序</b>：① 控制台 → 安全配置 → Web 安全域名，加 <code>${location.hostname}</code>；
+    ② 登录授权 → 开启匿名登录；③ 数据库 → 建集合 <code>${CFG.collection}</code> 并放开权限；
+    ④ 回本页面点「重连云端」。
+  </div>`;
+  showCloudModal("云端连接诊断", rows.join("") + tip);
+}
+function showCloudModal(title, html){
+  let m = document.getElementById("cloudModal");
+  if(!m){
+    m = document.createElement("div");
+    m.id = "cloudModal";
+    m.style.cssText = "position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px";
+    m.onclick = ev=>{ if(ev.target === m) m.remove(); };
+    document.body.appendChild(m);
+  }
+  m.innerHTML = `<div style="background:#fff;border-radius:14px;max-width:640px;width:100%;max-height:80vh;overflow:auto;padding:20px 22px;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <b style="font-size:16px">${title}</b>
+        <button class="btn" onclick="document.getElementById('cloudModal').remove()">关闭</button>
+      </div>
+      <div style="font-size:13.5px;color:#374151">${html}</div>
+    </div>`;
 }
 function load(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)) || defaultStore(); }catch(e){ return defaultStore(); } }
 function defaultStore(){ return { logs:[], targets:{}, aum:[], snapshots:[] }; }
@@ -947,16 +1334,46 @@ initDates();
 renderEntryForm();
 (async function boot(){
   let ok = false;
+  if(applyUrlCfg()) toast("已通过邀请链接接入共享");
   try{ ok = await initCloud(); }catch(e){ console.warn(e); ok = false; }
+  // 首次失败自动重试两次（间隔 1.5s / 4s），网络抖动或 SDK 慢加载时可自愈
+  for(let i=0; i<2 && !ok; i++){
+    await new Promise(r=>setTimeout(r, 1500 * (i+1)));
+    try{ ok = await initCloud(); }catch(e){ ok = false; }
+  }
   if(ok){
     try{
-      const rec = await cloudFetchRaw();
-      if(rec && rec.store){ store = rec.store; localStorage.setItem(LS_KEY, JSON.stringify(store)); updateCloudStatus("云端共享 · 已载入云端数据"); }
-      else updateCloudStatus("云端共享 · 等待首次数据");
+      const remote = await cloudFetchRaw();
+      if(remote){
+        // 以云端为准，同时保留本机还没推上去的条目
+        store = mergeStore(remote, load());
+        localStorage.setItem(LS_KEY, JSON.stringify(store));
+        updateCloudStatus("云端共享 · 已载入云端数据", false, "");
+        cloudSaveNow(store);
+      }
+      else{
+        updateCloudStatus("云端共享 · 等待首次数据", false, "");
+        cloudSaveNow(load());   // 本机已有历史数据的话，第一次就把它们搬上去
+      }
+      startPoll();             // 非 CloudBase 的后端没有 watch，统一用轮询兜底
     }catch(e){ console.warn(e); }
+  }else{
+    startPoll();   // 连不上云也保持尝试，恢复后自动补数据
   }
   renderAll();
 })();
+// 切回前台、网络恢复时自动重连
+window.addEventListener("online", ()=>{ if(!cbDb) reconnectCloud(); });
+document.addEventListener("visibilitychange", ()=>{
+  if(!document.hidden && PROV){
+    cloudFetchRaw().then(remote=>{
+      if(remote){
+        const merged = mergeStore(remote, store);
+        if(JSON.stringify(merged)!==JSON.stringify(store)){ store=merged; localStorage.setItem(LS_KEY,JSON.stringify(merged)); renderAll(); }
+      }
+    }).catch(()=>{});
+  }
+});
 </script>
 </body>
 </html>
