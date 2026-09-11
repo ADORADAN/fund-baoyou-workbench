@@ -13,5 +13,5 @@
 
 ## 部署到 GitHub Pages
 
-1. 本仓库 `main` 分支根目录即站点根目录。
-2. 在仓库 Settings → Pages 选择 Deploy from a branch，分支 `main`、目录 `/（root）` 即可。
+1. 本仓库 `master` 分支根目录即站点根目录。
+2. 在仓库 Settings → Pages 选择 Deploy from a branch，分支 `master`、目录 `/（root）` 即可。
