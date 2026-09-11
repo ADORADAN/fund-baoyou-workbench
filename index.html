@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基金投顾保有提升工作台</title>
+<style>
+  :root{
+    --bg:#f4f6fb; --card:#ffffff; --border:#e4e9f2; --text:#1f2a44; --muted:#7b8aa6;
+    --primary:#3b82f6; --primary-soft:#e8f0fe; --green:#16a34a; --green-soft:#e6f6ec;
+    --orange:#d97706; --orange-soft:#fdf1e0; --red:#dc2626; --red-soft:#fdeaea;
+    --purple:#7c3aed; --purple-soft:#f1eafd; --teal:#0d9488; --teal-soft:#e0f5f3;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Microsoft YaHei",-apple-system,"PingFang SC",sans-serif;background:var(--bg);color:var(--text);}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px;}
+  /* header */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#3b82f6,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700;}
+  .brand h1{font-size:20px;font-weight:700;}
+  .brand .sub{font-size:12px;color:var(--muted);margin-top:2px;}
+  .date-pick{display:flex;align-items:center;gap:8px;}
+  .date-pick input[type=month]{border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;background:#fff;}
+  /* tabs */
+  .tabs{display:flex;gap:6px;background:#fff;padding:6px;border-radius:12px;border:1px solid var(--border);margin-bottom:16px;flex-wrap:wrap;}
+  .tab{padding:8px 18px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);transition:.15s;border:none;background:transparent;}
+  .tab.active{background:var(--primary);color:#fff;}
+  .tab:hover:not(.active){background:var(--primary-soft);color:var(--primary);}
+  /* cards */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:16px;}
+  .card h3{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .card h3 .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px;}
+  .kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;}
+  .kpi .k-label{font-size:12px;color:var(--muted);margin-bottom:8px;}
+  .kpi .k-num{font-size:26px;font-weight:800;line-height:1;}
+  .kpi .k-num small{font-size:13px;font-weight:600;color:var(--muted);}
+  .kpi .k-sub{font-size:11px;color:var(--muted);margin-top:8px;}
+  .kpi:nth-child(1){border-top:3px solid var(--primary);}
+  .kpi:nth-child(2){border-top:3px solid var(--green);}
+  .kpi:nth-child(3){border-top:3px solid var(--orange);}
+  .kpi:nth-child(4){border-top:3px solid var(--purple);}
+  /* grid two col */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:800px){.grid2{grid-template-columns:1fr;}}
+  /* approach breakdown */
+  .approw{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px dashed var(--border);}
+  .approw:last-child{border-bottom:none;}
+  .appicon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;flex-shrink:0;}
+  .approw .appname{font-size:14px;font-weight:600;}
+  .approw .appmeta{font-size:12px;color:var(--muted);}
+  .approw .appval{margin-left:auto;text-align:right;}
+  .approw .appval .v{font-size:16px;font-weight:700;}
+  .approw .appval .t{font-size:11px;color:var(--muted);}
+  .prog{height:6px;background:#eef1f7;border-radius:4px;margin-top:6px;overflow:hidden;max-width:180px;}
+  .prog i{display:block;height:100%;background:var(--primary);border-radius:4px;}
+  .pill{display:inline-block;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;}
+  .pill.ok{background:var(--green-soft);color:var(--green);}
+  .pill.warn{background:var(--orange-soft);color:var(--orange);}
+  .pill.no{background:#eef1f7;color:var(--muted);}
+  /* entry form */
+  .personbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+  .personbar label{font-size:13px;color:var(--muted);}
+  .personbar input{border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:13px;width:150px;}
+  .personbar input[type=date]{width:150px;}
+  .sec{border:1px solid var(--border);border-radius:10px;margin-bottom:12px;overflow:hidden;background:#fff;}
+  .sec-h{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none;background:#fbfcfe;}
+  .sec-h .sicon{width:30px;height:30px;border-radius:8px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .sec-h .sname{font-size:14px;font-weight:700;}
+  .sec-h .sdesc{font-size:12px;color:var(--muted);}
+  .sec-h .chev{margin-left:auto;color:var(--muted);font-size:13px;transition:.2s;}
+  .sec.open .chev{transform:rotate(90deg);}
+  .sec-b{display:none;padding:14px 16px;}
+  .sec.open .sec-b{display:block;}
+  .frow{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:12px;}
+  .fld{display:flex;flex-direction:column;gap:5px;}
+  .fld label{font-size:12px;color:var(--muted);font-weight:600;}
+  .fld input,.fld textarea,.fld select{border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;background:#fff;font-family:inherit;}
+  .fld input:focus,.fld textarea:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 3px var(--primary-soft);}
+  .fld.full{grid-column:1/-1;}
+  .save-bar{display:flex;align-items:center;gap:14px;margin-top:6px;}
+  .btn{border:none;border-radius:9px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;}
+  .btn.primary{background:var(--primary);color:#fff;}
+  .btn.primary:hover{background:#2f6fe0;}
+  .btn.green{background:var(--green);color:#fff;}
+  .btn.green:hover{background:#128a3d;}
+  .btn.ghost{background:#fff;border:1px solid var(--border);color:var(--text);}
+  .btn.ghost:hover{background:var(--primary-soft);color:var(--primary);}
+  .btn.red{background:#fff;border:1px solid #f1c8c8;color:var(--red);}
+  .btn.red:hover{background:var(--red-soft);}
+  .btn.sm{padding:5px 11px;font-size:12px;font-weight:600;border-radius:7px;}
+  .toast-msg{font-size:13px;color:var(--green);font-weight:600;}
+  /* 核心资产 KPI（以签约/退出/保有为主）*/
+  .hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px;}
+  .hero .hk{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;}
+  .hero .hk::after{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;}
+  .hero .hk.blue::after{background:var(--primary);}
+  .hero .hk.red::after{background:var(--red);}
+  .hero .hk.green::after{background:var(--green);}
+  .hero .hk.orange::after{background:var(--orange);}
+  .hero .hk .hk-tag{display:inline-block;font-size:11px;font-weight:700;color:#fff;padding:2px 10px;border-radius:12px;margin-bottom:10px;}
+  .hero .hk .hk-num{font-size:30px;font-weight:800;line-height:1;}
+  .hero .hk .hk-num small{font-size:13px;font-weight:600;color:var(--muted);margin-left:2px;}
+  .hero .hk .hk-sub{font-size:12px;color:var(--muted);margin-top:8px;}
+  .hero .hk .hk-icon{position:absolute;right:14px;top:14px;font-size:22px;opacity:.85;}
+  /* history table */
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{padding:10px 10px;text-align:left;border-bottom:1px solid var(--border);}
+  th{color:var(--muted);font-weight:600;font-size:12px;background:#f8fafd;position:sticky;top:0;}
+  tr:hover td{background:#f8fafd;}
+  .filterbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+  .filterbar input,.filterbar select{border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;background:#fff;}
+  .empty{text-align:center;color:var(--muted);padding:34px 10px;font-size:14px;}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;}
+  .tag{font-size:11px;padding:2px 8px;border-radius:12px;background:#eef1f7;color:var(--muted);}
+  .chart-box{width:100%;position:relative;}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-bottom:8px;flex-wrap:wrap;}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;}
+  .hint{font-size:12px;color:var(--muted);}
+  .aum-stat{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .setting-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+  .setting-row label{font-size:13px;color:var(--muted);min-width:140px;}
+  .setting-row input{border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;width:130px;}
+  .banner{background:linear-gradient(135deg,#3b82f6,#22d3ee);color:#fff;border-radius:var(--radius);padding:18px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .banner b{font-size:17px;}
+  .banner .b-sub{font-size:13px;opacity:.9;margin-top:4px;}
+  .banner .b-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .banner .btn.light{background:#fff;color:var(--primary);}
+  .modal-mask{position:fixed;inset:0;background:rgba(20,30,50,.4);display:none;align-items:center;justify-content:center;z-index:99;padding:16px;}
+  .modal-mask.show{display:flex;}
+  .modal{background:#fff;border-radius:14px;padding:22px;max-width:560px;width:100%;max-height:84vh;overflow:auto;}
+  .modal h3{margin-bottom:14px;}
+  .modal textarea,.modal input{width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:13px;font-family:monospace;min-height:90px;margin-bottom:12px;}
+  .modal .btns{display:flex;justify-content:flex-end;gap:10px;}
+  .toast-fixed{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:11px 22px;border-radius:30px;font-size:13px;opacity:0;transition:.3s;pointer-events:none;z-index:200;}
+  .toast-fixed.show{opacity:1;bottom:34px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- header -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">保</div>
+      <div>
+        <h1>基金投顾保有提升工作台</h1>
+        <div class="sub">数据由填报人登记 · 看板自动汇总推进进度</div>
+      </div>
+    </div>
+    <div class="date-pick">
+      <span style="font-size:13px;color:var(--muted)">统计月份</span>
+      <input type="month" id="curMonth">
+    </div>
+  </div>
+
+  <!-- tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="dash">概览看板</button>
+    <button class="tab" data-tab="entry">登记工作</button>
+    <button class="tab" data-tab="history">历史记录</button>
+  </div>
+
+  <!-- ============ 概览看板 ============ -->
+  <div class="tabpane" id="pane-dash">
+    <div class="banner">
+      <div>
+        <div id="bannerTitle"><b>—</b></div>
+        <div class="b-sub" id="bannerSub">—</div>
+      </div>
+      <div class="b-actions">
+        <button class="btn light" onclick="switchTab('entry')">＋ 登记一条</button>
+        <button class="btn light" onclick="copyPkg()">复制数据包</button>
+        <button class="btn light" onclick="pastePkg()">粘贴数据包</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;width:100%">
+        <span class="hint" style="color:rgba(255,255,255,.85)">共享方式：</span>
+        <span id="cloudStatus"><span class="pill no">本机模式（未配置云端）</span></span>
+      </div>
+    </div>
+
+    <!-- 核心资产看板（以签约/退出/保有余额为主，差距栏忽略） -->
+    <div class="hero" id="heroRow" style="margin-top:16px"><!-- JS渲染 --></div>
+
+    <div class="kpis" id="kpiRow"><!-- JS填充 --></div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3><span class="dot" style="background:var(--primary)"></span>本月记录趋势（联系客户数 / 入金+意向金额）</h3>
+        <div class="legend">
+          <span><i style="background:var(--primary)"></i>联系量（人）</span>
+          <span><i style="background:var(--green)"></i>资金量（万元）</span>
+          <span class="hint">未填报日期为空</span>
+        </div>
+        <div class="chart-box"><canvas id="trendChart" height="200"></canvas></div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot" style="background:var(--green)"></span>五条思路推进情况（本月累计）</h3>
+        <div id="approachList"><!-- JS --></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3><span class="dot" style="background:var(--orange)"></span>填报覆盖情况（近7个有记录的日期）</h3>
+        <div id="coverList"><!-- JS --></div>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:var(--purple)"></span>最近工作记录</h3>
+        <div id="recentList"><!-- JS --></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 每日填报 ============ -->
+  <div class="tabpane" id="pane-entry" style="display:none">
+    <div class="card">
+      <div class="personbar">
+        <div class="fld" style="flex-direction:row;align-items:center;gap:8px">
+          <label style="min-width:70px">填报日期</label>
+          <input type="date" id="entryDate">
+        </div>
+        <div class="fld" style="flex-direction:row;align-items:center;gap:8px">
+          <label style="min-width:70px">填报人</label>
+          <input type="text" id="entryPerson" placeholder="填写姓名">
+        </div>
+        <div style="margin-left:auto;font-size:12px;color:var(--muted)" id="entryState"></div>
+      </div>
+
+      <div id="entrySections"><!-- JS 生成五个思路表单 --></div>
+
+      <div class="save-bar">
+        <button class="btn primary" onclick="saveEntry(false)">保存记录</button>
+        <button class="btn ghost" onclick="saveEntry(true)">保存并清空重填</button>
+        <span class="toast-msg" id="saveMsg"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 历史记录 ============ -->
+  <div class="tabpane" id="pane-history" style="display:none">
+    <div class="card">
+      <div class="filterbar">
+        <input type="date" id="fDate">
+        <input type="text" id="fPerson" placeholder="筛选填报人" style="width:140px">
+        <select id="fApproach">
+          <option value="">全部思路</option>
+        </select>
+        <button class="btn sm ghost" onclick="resetFilter()">重置</button>
+        <button class="btn sm primary" onclick="exportCSV()">导出CSV</button>
+      </div>
+      <div style="overflow:auto;max-height:560px">
+        <table>
+          <thead><tr>
+            <th>日期</th><th>填报人</th><th>状态</th><th>做了什么 / 关键数据</th>
+          </tr></thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="dot" style="background:var(--teal)"></span>每周规模快照（驱动顶部“签约 / 退出 / 保有余额”看板）</h3>
+      <div class="hint" style="margin-bottom:12px">每周由负责人填一次，顶部看板自动显示最新一期。</div>
+      <div class="aum-stat">
+        <div class="fld"><label>周期（如 2026-W37）</label><input type="text" id="snap_week" placeholder="2026-W37"></div>
+        <div class="fld"><label>本周签约（万元）</label><input type="number" id="snap_sign" min="0" step="0.01"></div>
+        <div class="fld"><label>本周退出（万元）</label><input type="number" id="snap_exit" min="0" step="0.01"></div>
+        <div class="fld"><label>保有余额（万元）</label><input type="number" id="snap_balance" min="0" step="0.01"></div>
+        <div class="fld"><label>备注</label><input type="text" id="snap_note" placeholder="可选"></div>
+        <div style="display:flex;align-items:flex-end"><button class="btn green" onclick="saveSnapshot()" style="width:100%">保存规模快照</button></div>
+      </div>
+      <div id="snapList" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <!-- ============ 目标设置（已移除） ============ -->
+</div>
+
+<!-- toast -->
+<div class="toast-fixed" id="toast"></div>
+
+<!-- import modal -->
+<div class="modal-mask" id="importMask">
+  <div class="modal">
+    <h3>导入数据</h3>
+    <textarea id="importArea" placeholder="粘贴 JSON 数据…"></textarea>
+    <div class="btns">
+      <button class="btn ghost" onclick="closeImport()">取消</button>
+      <button class="btn primary" onclick="doImport()">导入并合并</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= 数据模型 =================
+  store = {
+    logs: [{ id, date, person, items: { key: {...指标} } }]
+    targets: { "2026-09": { depositAmt, recoverAmt, contact, instIntent } }
+    aum: [ { period:"2026-08", begin, end } ]
+  }
+================= */
+const LS_KEY = "ajt_workbench_v1";
+
+const APPROACHES = [
+  {
+    key:"customer_manager", name:"① 客户经理沟通", icon:"👥", color:"#3b82f6",
+    desc:"有沟通就记：和谁、往哪个方向推",
+    fields:[
+      {id:"who",    label:"和谁沟通",          type:"text"},
+      {id:"topics", label:"大概方向 / 结果",    type:"textarea"}
+    ]
+  },
+  {
+    key:"new_deposit", name:"② 存量客户再入金", icon:"💰", color:"#16a34a",
+    desc:"用什么方式联系、覆盖与产出如何",
+    fields:[
+      {id:"contacted", label:"覆盖存量客户数(人)", type:"number", need:true},
+      {id:"method",    label:"用什么方式联系",     type:"textarea"},
+      {id:"amount",    label:"入金产出(万元)",     type:"number", need:true}
+    ], contactField:"contacted", amountField:"amount"
+  },
+  {
+    key:"exited", name:"③ 退出客户回访", icon:"🔄", color:"#d97706",
+    desc:"联系几人、结果如何",
+    fields:[
+      {id:"contacted", label:"联系客户数(人)", type:"number", need:true},
+      {id:"result",    label:"回访结果 / 原因汇总", type:"textarea"}
+    ], contactField:"contacted"
+  },
+  {
+    key:"institution", name:"④ 机构客户", icon:"🏛️", color:"#7c3aed",
+    desc:"联系机构客户，推动配置或新增资金",
+    fields:[
+      {id:"contacted", label:"联系机构数(家)",      type:"number", need:true},
+      {id:"intent",    label:"意向金额(万元)",      type:"number"},
+      {id:"note",      label:"推进事项 / 对接情况", type:"textarea"}
+    ], contactField:"contacted", amountField:"intent"
+  },
+  {
+    key:"service_group", name:"⑤ 客群服务部协同", icon:"🤝", color:"#0d9488",
+    desc:"与客群服务部协同对接、资源与话术",
+    fields:[
+      {id:"items",  label:"协同对接事项", type:"textarea"},
+      {id:"result", label:"推进结果",    type:"textarea"},
+      {id:"next",   label:"下一步计划",  type:"textarea"}
+    ]
+  }
+];
+
+const AK = {};
+APPROACHES.forEach(a=>AK[a.key]=a);
+
+/* ---------- 工具 ---------- */
+const $=id=>document.getElementById(id);
+/* ===== 云端共享配置（GitHub 方案） =====
+   GitHub Pages 只托管静态文件、没有数据库。这里改用「仓库里的一个 JSON 文件」
+   作为共享存储，零额外注册，只用 GitHub：
+   - 读：网页调用 GitHub Contents API 拉取 data/shared.json
+   - 写：用同一个 Token 通过 Contents API 覆盖写回（自动合并去重）
+   说明见同目录「部署说明.md」（部署后 enabled 改 true）。留空则退回本机单机模式。 */
+const CFG = {
+  enabled: false,          // 部署后改为 true
+  owner: "",               // GitHub 用户名/组织名，如 "zhangsan"
+  repo: "",                // 仓库名，如 "fund-workbench"
+  branch: "main",          // 默认分支
+  file: "data/shared.json",// 共享数据文件路径（需先在仓库提交一个空的 "{}" 占位文件）
+  token: ""                // Fine-grained PAT，仅授权到该仓库的 contents 读写
+};
+const GITHUB_API = "https://api.github.com";
+
+function cloudReady(){
+  return !!(CFG.enabled && CFG.owner && CFG.repo && CFG.token);
+}
+/* UTF-8 ↔ base64（兼容中文，分块避免栈溢出） */
+function strToB64(s){
+  const bytes = new TextEncoder().encode(s);
+  let bin = "";
+  for(let i=0;i<bytes.length;i+=0x8000){
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i+0x8000));
+  }
+  return btoa(bin);
+}
+function b64ToStr(b64){
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+function ghUrl(){ return `${GITHUB_API}/repos/${CFG.owner}/${CFG.repo}/contents/${encodeURIComponent(CFG.file)}?ref=${CFG.branch}`; }
+function ghHeaders(){
+  return {
+    "Authorization": "token " + CFG.token,
+    "Accept": "application/vnd.github+json"
+  };
+}
+/* 从云端拉取共享文件，返回 { store, sha }；文件不存在则返回 null */
+async function cloudFetchRaw(){
+  const res = await fetch(ghUrl(), { headers: ghHeaders() });
+  if(res.status === 404) return null;
+  if(!res.ok) throw new Error("GH fetch " + res.status);
+  const j = await res.json();
+  let store = null;
+  try{ store = JSON.parse(b64ToStr(j.content)); }catch(e){ store = {};
+    try{ store = JSON.parse(decodeURIComponent(escape(atob(j.content)))); }catch(e2){}
+  }
+  return { store, sha: j.sha };
+}
+/* 合并两份 store（按天然主键去重，收敛多人改写） */
+function mergeStore(a, b){
+  const out = JSON.parse(JSON.stringify(a||defaultStore()));
+  const bv = b||defaultStore();
+  // logs 按 date|person 去重
+  const map = new Map(); (out.logs||[]).forEach(l=>map.set((l.date||"")+"|"+(l.person||""), l));
+  (bv.logs||[]).forEach(l=>{ if(!map.has((l.date||"")+"|"+(l.person||""))) map.set((l.date||"")+"|"+(l.person||""), l); });
+  out.logs = [...map.values()];
+  // snapshots 按 week
+  const sm = new Map(); (out.snapshots||[]).forEach(x=>sm.set(x.week, x));
+  (bv.snapshots||[]).forEach(x=>sm.set(x.week, x));
+  out.snapshots = [...sm.values()];
+  // targets 按 month
+  out.targets = Object.assign({}, bv.targets||{}, out.targets||{});
+  // aum 按 period
+  const am = new Map(); (out.aum||[]).forEach(x=>am.set(x.period, x));
+  (bv.aum||[]).forEach(x=>am.set(x.period, x));
+  out.aum = [...am.values()];
+  return out;
+}
+/* 向云端推送（先拉最新合并再覆盖；遇并发冲突 409 则自动重合并重试一次） */
+async function cloudPush(store, tries){
+  tries = tries==null ? 2 : tries;
+  for(let i=0;i<tries;i++){
+    const latest = await cloudFetchRaw();
+    const prevStore = latest ? latest.store : null;
+    const merged = prevStore ? mergeStore(prevStore, store) : store;
+    const body = {
+      message: "sync " + new Date().toISOString(),
+      content: strToB64(JSON.stringify(merged)),
+      branch: CFG.branch
+    };
+    if(latest && latest.sha) body.sha = latest.sha;
+    const res = await fetch(`${GITHUB_API}/repos/${CFG.owner}/${CFG.repo}/contents/${encodeURIComponent(CFG.file)}`, {
+      method: "PUT",
+      headers: Object.assign(ghHeaders(), { "Content-Type": "application/json" }),
+      body: JSON.stringify(body)
+    });
+    if(res.ok) return merged;
+    if(res.status === 409 && i < tries-1){ store = merged; continue; } // 并发冲突，重新合并再写
+    throw new Error("GH push " + res.status);
+  }
+}
+/* 云端同步版 save()：本机缓存 + 异步推云端 */
+function cloudSaveNow(s){
+  localStorage.setItem(LS_KEY, JSON.stringify(s));
+  if(cloudReady()){
+    cloudPush(s).then(merged=>{ localStorage.setItem(LS_KEY, JSON.stringify(merged)); updateCloudStatus("已同步"); })
+      .catch(e=>{ console.warn("云同步失败", e); updateCloudStatus("同步失败（已存本机）", true); });
+  }
+}
+let cloudStatusEl = null;
+function updateCloudStatus(msg, bad){
+  const el = document.getElementById("cloudStatus");
+  if(el) el.innerHTML = `<span class="pill ${bad?'warn':'ok'}">${msg}</span>`;
+}
+async function pullFromCloud(){
+  if(!cloudReady()) return load();
+  const rec = await cloudFetchRaw();
+  if(rec && rec.store){ localStorage.setItem(LS_KEY, JSON.stringify(rec.store)); return rec.store; }
+  return load();
+}
+async function refreshFromCloud(){
+  store = await pullFromCloud(); renderAll(); updateCloudStatus("已刷新");
+}
+function load(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)) || defaultStore(); }catch(e){ return defaultStore(); } }
+function defaultStore(){ return { logs:[], targets:{}, aum:[], snapshots:[] }; }
+function save(s){ cloudSaveNow(s); }
+const todayStr = ()=>{ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+function monthOf(d){ return (d||todayStr()).slice(0,7); }
+function todayMonth(){ return todayStr().slice(0,7); }
+function num(v){ const n=parseFloat(v); return isNaN(n)?0:Math.round(n*100)/100; }
+function escPreserve(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._tm); t._tm=setTimeout(()=>t.classList.remove("show"),2200); }
+let store = load();
+
+/* ---------- 日期 & 月份 ---------- */
+function initDates(){
+  const m = store._lastViewMonth || todayMonth();
+  $("curMonth").value = m;
+  $("entryDate").value = todayStr();
+}
+$("curMonth").addEventListener("change", e=>{
+  store = load(); store._lastViewMonth = e.target.value; save(store); renderAll();
+});
+
+/* ---------- 汇总计算 ---------- */
+function monthLogs(m){ return store.logs.filter(l => monthOf(l.date)===m); }
+function approachTotals(m){
+  const logs = monthLogs(m);
+  const t = {};
+  APPROACHES.forEach(a=>{ t[a.key]={ contact:0, amount:0 }; });
+  logs.forEach(l=>APPROACHES.forEach(a=>{
+    const it=l.items&&l.items[a.key]; if(!it) return;
+    if(a.contactField) t[a.key].contact += num(it[a.contactField]||0);
+    if(a.amountField)  t[a.key].amount  += num(it[a.amountField]||0);
+  }));
+  t.totalContact = APPROACHES.reduce((s,a)=>s+t[a.key].contact,0);
+  t.depositAmt  = t.new_deposit.amount;
+  t.recoverAmt  = t.exited.amount;
+  t.instIntent  = t.institution.amount;
+  t.funderAmt   = t.depositAmt + t.recoverAmt;
+  t.entries     = logs.length;
+  t.persons     = new Set(logs.map(l=>l.person||"未署名")).size;
+  t.days        = new Set(logs.map(l=>l.date)).size;
+  return t;
+}
+
+/* ---------- 渲染：概览看板 ---------- */
+function snapStats(){
+  const s=(store.snapshots||[]).slice().sort((a,b)=>(b.week||"").localeCompare(a.week||""));
+  const latest=s[0]||{};
+  return { sign:num(latest.sign||0), exit:num(latest.exit||0), balance:num(latest.balance||0),
+           week:latest.week||"—", have: s.length>0, list:s };
+}
+function renderHero(){
+  const sn=snapStats();
+  const net=sn.sign - sn.exit;
+  const cards=[
+    {cls:"blue", tag:"blue-soft", tcolor:"#e8f0fe", label:"本周签约", num:sn.sign, unit:"万元", icon:"📝",
+     sub:sn.have?`周期 ${sn.week}`:"每周在「历史记录」填一次规模快照"},
+    {cls:"red", tag:"red", tcolor:"#dc2626", label:"本周退出", num:sn.exit, unit:"万元", icon:"↘️",
+     sub:net<0?`退出高于签约 ${Math.abs(net)} 万`:"退出低于签约"},
+    {cls:"green", tag:"green", tcolor:"#16a34a", label:"保有余额", num:sn.balance, unit:"万元", icon:"🏦",
+     sub:"（1.51亿 = 15100万）当前存量规模"},
+    {cls:"orange", tag:"orange", tcolor:"#d97706", label:"本周净签约", num:net, unit:"万元", icon:"⚖️",
+     sub:"净签约 = 签约 − 退出"+(net<0?"（净流出，需重点关注）":"")},
+  ];
+  $("heroRow").innerHTML = cards.map(c=>`
+    <div class="hk ${c.cls}">
+      <span class="hk-tag" style="background:${c.tcolor}">${c.label}</span>
+      <div class="hk-num">${c.num.toLocaleString()}<small>${c.unit}</small></div>
+      <div class="hk-sub">${c.sub}</div>
+      <span class="hk-icon">${c.icon}</span>
+    </div>`).join("");
+}
+function renderDash(){
+  const m = $("curMonth").value;
+  const t = approachTotals(m);
+
+  $("bannerTitle").innerHTML = `<b>${m} · 本月记录总览</b>`;
+  $("bannerSub").innerHTML = `累计 <b>${t.entries}</b> 条记录 · 覆盖 <b>${t.days}</b> 天 / <b>${t.persons}</b> 位填报人`;
+  renderHero();
+
+  const kpis = [
+    {label:"本月联系客户数", num:t.totalContact, unit:"人", sub:"存量覆盖 + 退出回访 + 机构联系合计"},
+    {label:"存量再入金（万）", num:t.depositAmt, unit:"万元", sub:"引导存量客户加仓的产出"},
+    {label:"退出客户回访", num:t.exited.contact, unit:"人", sub:"联系已退出客户数"},
+    {label:"机构意向金额（万）", num:t.instIntent, unit:"万元", sub:"机构侧推进产生的意向"},
+  ];
+  $("kpiRow").innerHTML = kpis.map(k=>`
+    <div class="kpi">
+      <div class="k-label">${k.label}</div>
+      <div class="k-num">${k.num.toLocaleString()}<small> ${k.unit}</small></div>
+      <div class="k-sub">${k.sub}</div>
+    </div>`).join("");
+
+  // 五条思路推进
+  $("approachList").innerHTML = APPROACHES.map(a=>{
+    const tt = t[a.key];
+    let meta;
+    if(a.amountField) meta = `记录 ${tt.contact} ${a.key==="institution"?"家":"人"} · 资金 ${tt.amount} 万元`;
+    else if(a.contactField) meta = `共记录 ${tt.contact} 人`;
+    else meta = a.key==="customer_manager" ? "记录沟通进展" : "记录协同进展";
+    const hasNum = a.amountField!=null || a.contactField!=null;
+    const val = a.amountField!=null ? tt.amount : tt.contact;
+    const valLabel = a.amountField!=null ? "万元" : (a.key==="institution"?"家":"人");
+    return `<div class="approw">
+      <div class="appicon" style="background:${a.color}">${a.icon}</div>
+      <div style="min-width:0">
+        <div class="appname">${a.name}</div>
+        <div class="appmeta">${meta}</div>
+      </div>
+      <div class="appval">${hasNum?`<div class="v">${val.toLocaleString()}<span style="font-size:11px;color:var(--muted)"> ${valLabel}</span></div>`:""}<div class="t">${a.desc}</div></div>
+    </div>`;
+  }).join("");
+
+  renderTrend(m);
+  renderCover(t, m);
+  renderRecent(m);
+}
+
+/* 每日趋势图 */
+function renderTrend(m){
+  const daysInMonth = new Date(Number(m.slice(0,4)), Number(m.slice(5,7)), 0).getDate();
+  const arr = Array.from({length:daysInMonth},(_,i)=>{
+    const d = `${m}-${String(i+1).padStart(2,"0")}`;
+    const logs = monthLogs(m).filter(l=>l.date===d);
+    let contact=0, fund=0;
+    logs.forEach(l=>APPROACHES.forEach(a=>{ const it=(l.items&&l.items)[a.key]; if(!it) return;
+      if(a.contactField) contact += num(it[a.contactField]||0);
+      if(a.amountField) fund += num(it[a.amountField]||0);
+    }));
+    return {d, contact, fund};
+  });
+  drawTrend(arr);
+}
+function drawTrend(data){
+  const cv = $("trendChart"); if(!cv) return; const dpr=2; const W=cv.clientWidth||680; cv.width=W*dpr; cv.height=220*dpr;
+  const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr); const H=200; ctx.clearRect(0,0,W,H);
+  const pad={l:44,r:12,t:14,b:24};
+  const maxContact=Math.max(1,...data.map(x=>x.contact));
+  const maxFund=Math.max(1,...data.map(x=>x.fund));
+  const cMax=Math.max(maxContact,maxFund)*1.15;
+  const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b;
+  const bw=iw/data.length*0.62;
+  ctx.strokeStyle="#eef1f7"; ctx.fillStyle="#9aa7bd"; ctx.font="10px sans-serif"; ctx.lineWidth=1;
+  for(let g=0;g<=4;g++){ const y=pad.t+ih*g/4; ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y); ctx.stroke(); ctx.fillText(Math.round(cMax*(1-g/4)).toString(),6,y+3); }
+  data.forEach((x,i)=>{
+    const cxAxis = pad.l + iw*(i+0.5)/data.length;
+    const hc=x.contact/cMax*ih; const hf=x.fund/cMax*ih;
+    const bx = cxAxis - bw + 1, fx = cxAxis + 1;
+    ctx.fillStyle="#3b82f6"; ctx.fillRect(bx, pad.t+ih-hc, bw-3, hc);
+    ctx.fillStyle="#16a34a"; ctx.fillRect(fx, pad.t+ih-hf, bw-3, hf);
+    if(x.d.slice(-2)==="01"||i===data.length-1){ ctx.fillStyle="#b6c1d4"; ctx.save(); ctx.translate(cxAxis,H-8); ctx.fillText((i+1).toString(), -5,0); ctx.restore(); }
+  });
+}
+
+/* 填报覆盖 & 最近记录 */
+function renderCover(t, m){
+  const days = new Set(store.logs.map(l=>l.date));
+  const sorted=[...days].sort();
+  const last= sorted.slice(-7);
+  const html = last.length? last.map(d=>{
+    const ls = monthLogs(m).filter(l=>l.date===d);
+    const done = ls.length;
+    let totalC=0; ls.forEach(l=>APPROACHES.forEach(a=>{const it=l.items&&l.items[a.key]; if(it&&a.contactField) totalC+=num(it[a.contactField]||0);}));
+    return `<div class="approw">
+      <div class="appicon" style="background:${done? '#16a34a':'#eef1f7'};color:${done?'#fff':'#9aa7bd'}">${done?'✔':'·'}</div>
+      <div><div class="appname">${d}</div><div class="appmeta">${done? done+' 条填报 · 联系 '+totalC:'未填报'}</div></div>
+      <div style="margin-left:auto"><span class="pill ${done?'ok':'no'}">${done?'已填报':'进行/未填'}</span></div>
+    </div>`;
+  }).join("") : `<div class="empty">本月暂无填报记录</div>`;
+  $("coverList").innerHTML = html;
+}
+function renderRecent(m){
+  const top = store.logs.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")||b.id-a.id).slice(0,8);
+  $("recentList").innerHTML = top.length? top.map(l=>{
+    const dims = APPROACHES.map(a=>{ const it=l.items&&l.items[a.key]; if(!it) return null;
+      let s=a.name.slice(a.name.indexOf(" ")+1);
+      if(a.amountField) s+=" "+num(it[a.amountField]||0)+"万";
+      else if(a.contactField) s+=" "+num(it[a.contactField]||0)+(a.key==="institution"?"家":"人");
+      return s;
+    }).filter(Boolean);
+    return `<div class="approw" style="padding:9px 4px">
+      <div style="min-width:0">
+        <div class="appname" style="font-size:13px">${l.date} · ${l.person||"未署名"}</div>
+        <div class="appmeta" style="margin-top:4px"><div class="tags">${dims.map(x=>`<span class="tag">${x}</span>`).join("")||'<span class="tag">空记录</span>'}</div></div>
+      </div>
+      <button class="btn sm ghost" onclick="editEntry(${l.id})">编辑</button>
+    </div>`;
+  }).join("") : `<div class="empty">暂无记录，点「登记工作」记一条</div>`;
+}
+
+function switchTab(tab){
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  document.querySelectorAll(".tabpane").forEach(p=>p.style.display=p.id==="pane-"+tab?"block":"none");
+  if(tab==="entry"){ renderEntryForm(); }
+  if(tab==="history") renderHistory();
+}
+
+/* ================= 填报表单 ================= */
+let editingId = null;
+function emptyRecord(){ return { items:{} }; }
+function renderEntryForm(edit){
+  const value = edit || emptyRecord();
+  const secs = APPROACHES.map(a=>{
+    const it = (value.items&&value.items[a.key]) || {};
+    const fields = a.fields.map(f=>{
+      const v = it[f.id]!=null? it[f.id] : "";
+      return `<div class="fld ${f.type==="textarea"?"full":""}"><label>${f.label}${f.need?' <span style="color:var(--red)">*</span>':''}</label>${
+        f.type==="textarea"
+          ? `<textarea name="${a.key}_${f.id}" rows="2" placeholder="填写…">${escPreserve(v)}</textarea>`
+          : f.type==="number"
+            ? `<input type="number" min="0" step="any" name="${a.key}_${f.id}" value="${v}">`
+            : `<input type="text" name="${a.key}_${f.id}" value="${escPreserve(v)}">`
+      }</div>`;
+    }).join("");
+    return `<div class="sec open">
+      <div class="sec-h" onclick="this.parentElement.classList.toggle('open')">
+        <div class="sicon" style="background:${a.color}">${a.icon}</div>
+        <div><div class="sname">${a.name}</div><div class="sdesc">${a.desc}</div></div>
+        <span class="chev">▶</span>
+      </div>
+      <div class="sec-b"><div class="frow">${fields}</div></div>
+    </div>`;
+  }).join("");
+  $("entrySections").innerHTML = secs;
+}
+function saveEntry(clearAfter){
+  const person = $("entryPerson").value.trim()||"未署名";
+  const date = $("entryDate").value || todayStr();
+  const items = {};
+  APPROACHES.forEach(a=>{
+    const it={};
+    a.fields.forEach(f=>{ const el=document.querySelector(`[name="${a.key}_${f.id}"]`);
+      it[f.id] = el.type==="number"? num(el.value) : el.value.trim(); });
+    if(!a.fields.some(f=>(it[f.id]!=="" && it[f.id]!=null))) return; // 全空则不记录该思路
+    items[a.key]=it;
+  });
+  store = load();
+  if(editingId!=null){
+    const i=store.logs.findIndex(l=>l.id===editingId);
+    if(i>=0){ store.logs[i]={...store.logs[i],date,person,items,_updated:Date.now()}; }
+    editingId=null;
+  } else {
+    store.logs.push({ id:Date.now(), date, person, items, _ts:Date.now() });
+  }
+  store._lastViewMonth = monthOf(date);
+  save(store);
+  $("saveMsg").textContent = "✓ 已保存 ("+monthOf(date)+")";
+  setTimeout(()=>$("saveMsg").textContent="",2600);
+  $("curMonth").value = monthOf(date);
+  if(clearAfter){ clearForm(); }
+  renderAll();
+  if($("pane-history").style.display!=="none") renderHistory();
+}
+function clearForm(){
+  editingId=null; $("entryState").textContent="";
+  $("entrySections").innerHTML="";
+  renderEntryForm();
+}
+function editEntry(id){
+  store=load(); const l=store.logs.find(x=>x.id===id); if(!l)return;
+  switchTab("entry");
+  $("entryDate").value=l.date; $("entryPerson").value=l.person||"";
+  editingId=l.id; renderEntryForm(l);
+  $("entryState").innerHTML=`<span class="pill warn">编辑中 · 点击保存覆盖该记录</span>`;
+}
+
+/* ================= 历史 ================= */
+function renderHistory(){
+  renderSnapList();
+  const f=$("fApproach"); if(!f.dataset.inited){ f.dataset.inited=1; APPROACHES.forEach(a=>{const o=document.createElement("option");o.value=a.key;o.textContent=a.name;f.appendChild(o);}); }
+  const fd=$("fDate").value, fp=$("fPerson").value.trim(), fa=$("fApproach").value;
+  let rows = store.logs.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")||b.id-a.id);
+  if(fd) rows=rows.filter(l=>l.date===fd);
+  if(fp) rows=rows.filter(l=>(l.person||"").toLowerCase().includes(fp.toLowerCase()));
+  const body=$("historyBody");
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="4"><div class="empty">没有匹配的记录</div></td></tr>`; return; }
+  body.innerHTML = rows.map(l=>{
+    if(fa){
+      const a=AK[fa], it=(l.items&&l.items)[a.key]; if(!it) return "";
+      const txt = a.fields.map(f=>(it[f.id]||it[f.id]===0)? `${f.label.split("(")[0]} ${it[f.id]}` : null).filter(Boolean).join("；");
+      return `<tr><td>${l.date}</td><td>${l.person||"未署名"}</td><td>${l._updated?'<span class="pill warn">已编辑</span>':""}</td><td><b style="color:${a.color}">${a.name}</b>：${txt||"—"}</td></tr>`;
+    }
+    const all = APPROACHES.map(a=>{
+      const it=(l.items&&l.items)[a.key]; if(!it) return null;
+      const ds = a.fields.map(f=>{
+        if(f.type==="textarea" && !it[f.id]) return null;
+        if(f.type==="number") return `${f.label.split("(")[0]} ${it[f.id]??0}`;
+        return it[f.id];
+      }).filter(Boolean).join("，");
+      return `<div style="margin-bottom:5px"><b style="color:${a.color}">${a.name.slice(a.name.indexOf(" ")+1)}</b>：${ds||"—"}</div>`;
+    }).filter(Boolean).join("");
+    return `<tr><td>${l.date}</td><td>${l.person||"未署名"}</td><td>${l._updated?'<span class="pill warn">已编辑</span>':""}</td><td style="max-width:520px">${all}</td></tr>`;
+  }).join("");
+}
+function resetFilter(){ $("fDate").value="";$("fPerson").value="";$("fApproach").value="";renderHistory(); }
+$("fDate").addEventListener("change",renderHistory);
+$("fPerson").addEventListener("input",renderHistory);
+$("fApproach").addEventListener("change",renderHistory);
+
+/* ================= 每周规模 ================= */
+function saveSnapshot(){
+  store=load(); const week=$("snap_week").value.trim();
+  if(!week){ toast("请填写周期，如 2026-W37"); return; }
+  store.snapshots = store.snapshots.filter(x=>x.week!==week);
+  store.snapshots.push({ week, sign:num($("snap_sign").value), exit:num($("snap_exit").value),
+                         balance:num($("snap_balance").value), note:$("snap_note").value.trim(), _ts:Date.now() });
+  store.snapshots.sort((a,b)=>(a.week||"").localeCompare(b.week||""));
+  save(store); toast("规模快照已保存"); renderSnapList(); renderDash();
+}
+function renderSnapList(){
+  const s=(store.snapshots||[]).slice().sort((a,b)=>(b.week||"").localeCompare(a.week||""));
+  $("snapList").innerHTML = s.length? `<table>
+    <thead><tr><th>周期</th><th>本周签约</th><th>本周退出</th><th>保有余额</th><th>净签约</th><th>备注</th></tr></thead>
+    <tbody>${s.map(x=>`<tr>
+      <td>${x.week}</td><td>${num(x.sign||0)}</td><td>${num(x.exit||0)}</td>
+      <td>${num(x.balance||0)}</td><td style="color:${(num(x.sign)-num(x.exit))<0?'var(--red)':'var(--green)'}">${(num(x.sign)-num(x.exit)).toLocaleString()}</td>
+      <td class="hint">${x.note||""}</td></tr>`).join("")}
+    </tbody></table>` : `<div class="empty" style="padding:14px">还没有规模快照，填入上方并保存</div>`;
+}
+window.addEventListener("resize",()=>{ if($("pane-dash").style.display!=="none") renderDash(); });
+
+/* ================= 导出 / 导入 ================= */
+function download(name, content, mime){
+  const blob=new Blob([content],{type:mime||"application/octet-stream"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; a.click(); URL.revokeObjectURL(a.href);
+}
+function exportJSON(){
+  const m=$("curMonth").value;
+  const payload={_meta:{app:"基金投顾保有提升工作台",month:m,exportedAt:todayStr()}, logs:store.logs, targets:store.targets, aum:store.aum, snapshots:store.snapshots};
+  download(`保有提升数据_${m}.json`, JSON.stringify(payload,null,2), "application/json"); toast("已导出 JSON");
+}
+function exportCSV(){
+  const m=$("curMonth").value;
+  let csv="日期,填报人,思路,指标,数值\n";
+  monthLogs(m).forEach(l=>APPROACHES.forEach(a=>{ const it=(l.items&&l.items)[a.key]; if(!it)return;
+    const nm=a.name; a.fields.forEach(f=>{ csv+=`"${l.date}","${l.person||""}","${nm}","${f.label.replace(/"/g,'""')}","${it[f.id]??0}"\n`; });
+  }));
+  download(`保有提升明细_${m}.csv`, "\ufeff"+csv, "text/csv;charset=utf-8"); toast("已导出 CSV");
+}
+function openImport(){ $("importMask").classList.add("show"); $("importArea").value=""; }
+function closeImport(){ $("importMask").classList.remove("show"); }
+/* ===== 数据包：离线共享（复制一段文本互传，无需任何网络/账号） ===== */
+function copyPkg(){
+  const text = JSON.stringify(store);
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text)
+      .then(()=>toast("数据包已复制，发到微信群即可"))
+      .catch(()=>pkgFallback(text));
+  } else pkgFallback(text);
+}
+function pkgFallback(text){
+  const a=$("importArea"); a.value=text; $("importMask").classList.add("show");
+  a.focus(); a.select(); toast("已生成数据包，请按 Ctrl+C 复制");
+}
+function pastePkg(){
+  openImport();
+  if(navigator.clipboard && navigator.clipboard.readText){
+    navigator.clipboard.readText().then(t=>{ if(t && t.length>8) $("importArea").value=t; })
+      .catch(()=>{});
+  }
+  toast("把填报人发来的数据包粘贴进框里，点「导入并合并」");
+}
+function parseCSVRows(text){
+  const lines=text.replace(/\r/g,"").split("\n").filter(l=>l.trim()!=="");
+  const rows=lines.map(l=>l.split(",").map(c=>c.trim().replace(/^"+|"+$/g,"")));
+  const h=rows[0].map(x=>x.replace(/[（(].*[)）]/g,""));
+  return {headers:h, rows:rows.slice(1), headRaw:rows[0]};
+}
+function colIdx(headers, keys){
+  for(let i=0;i<keys.length;i++){ const k=keys[i]; const j=headers.findIndex(h=>h&&h.includes(k)); if(j>=0) return j; }
+  return -1;
+}
+function importFromCSV(text){
+  const {headers, rows}=parseCSVRows(text);
+  const isSnap = headers.some(h=>h&&h.includes("本周签约"));
+  const isDaily = headers.some(h=>h&&(h.includes("填报人")||h.includes("客户经理")));
+  store=load();
+  if(isSnap){
+    const iWeek=colIdx(headers,["周期"]), iSign=colIdx(headers,["本周签约"]),
+          iExit=colIdx(headers,["本周退出"]), iBal=colIdx(headers,["保有余额"]),
+          iNote=colIdx(headers,["备注"]);
+    let n=0;
+    rows.forEach(r=>{
+      const week=(r[iWeek]||"").trim(); if(!week) return;
+      const obj={week, sign:num(r[iSign])||0, exit:num(r[iExit])||0, balance:num(r[iBal])||0,
+                 note:(iNote>=0?r[iNote]||"":""), _ts:Date.now()};
+      store.snapshots = store.snapshots.filter(x=>x.week!==week);
+      store.snapshots.push(obj); n++;
+    });
+    store.snapshots.sort((a,b)=>(a.week||"").localeCompare(b.week||""));
+    save(store); closeImport(); renderAll();
+    toast(`✓ 已导入 ${n} 条规模快照`); return true;
+  }
+  if(isDaily){
+    const iDate=colIdx(headers,["日期"]), iPerson=colIdx(headers,["填报人"]);
+    const DAF=[
+      ["customer_manager","who","和谁沟通"],["customer_manager","topics","沟通要点"],
+      ["new_deposit","contacted","覆盖存量客户数"],["new_deposit","contacted","存量联系客户数"],
+      ["new_deposit","method","用什么方式联系"],
+      ["new_deposit","amount","入金金额"],
+      ["exited","contacted","退出联系客户数"],["exited","result","回访结果"],
+      ["institution","contacted","机构联系数"],["institution","intent","机构意向金额"],
+      ["service_group","items","客群协同事项"],["service_group","result","推进结果"] ];
+    let n=0;
+    rows.forEach(r=>{
+      const date=(r[iDate]||"").trim(), person=(r[iPerson]||"").trim()||"未署名";
+      if(!date) return;
+      const items={};
+      DAF.forEach(([ap,f,key])=>{ const j=colIdx(headers,[key]); if(j<0) return;
+        const v=r[j]||""; if(v==="") return; items[ap]=items[ap]||{}; items[ap][f]= f==="topics"||f==="items"||f==="result" ? v : num(v);
+      });
+      // 修正：数字字段转数值
+      APPROACHES.forEach(a=>{ const it=items[a.key]; if(!it)return; a.fields.forEach(f=>{ if(f.type==="number"&&it[f.id]!=null) it[f.id]=num(it[f.id]); }); });
+      if(!Object.keys(items).length) return;
+      // 同人同日合并新增
+      const same=store.logs.find(l=>l.date===date&&l.person===person);
+      if(same){ Object.keys(items).forEach(k=>same.items[k]=items[k]); }
+      else store.logs.push({id:Date.now()+n, date, person, items, _src:date+person, _ts:Date.now()});
+      n++;
+    });
+    save(store); closeImport(); renderAll();
+    toast(`✓ 已导入/合并 ${n} 条每日填报`); return true;
+  }
+  return false;
+}
+function doImport(){
+  const txt=$("importArea").value.trim(); if(!txt){toast("请粘贴数据");return;}
+  // 先尝试 JSON，失败则按 CSV（腾讯文档导出）处理
+  try{
+    const d=JSON.parse(txt);
+    if(d&&Array.isArray(d.logs)){
+      store=load();
+      d.logs.forEach(l=>{ if(!store.logs.find(x=>(x._src&&x._src===l.id)||((x.id===l.id)&&x._src))){ store.logs.push({...l, _src:l.id}); } });
+      if(d.targets) store.targets=Object.assign({},store.targets,d.targets);
+      if(d.aum) store.aum=d.aum;
+      if(d.snapshots){ (d.snapshots||[]).forEach(x=>{ store.snapshots=store.snapshots.filter(s=>s.week!==x.week); store.snapshots.push(x); }); }
+      save(store); closeImport(); renderAll();
+      toast(`✓ 已合并 ${d.logs.length} 条记录`); return;
+    }
+  }catch(e){}
+  if(importFromCSV(txt)) return;
+  toast("导入失败：无法识别为 JSON 或共享表 CSV"); 
+}
+
+/* ================= 总渲染 ================= */
+function renderAll(){
+  renderDash();
+  if($("pane-history").style.display!=="none") renderHistory();
+}
+
+// init tabs
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
+initDates();
+renderEntryForm();
+(async function boot(){
+  if(cloudReady()){
+    try{
+      const rec = await cloudFetchRaw();
+      if(rec && rec.store){ store = rec.store; localStorage.setItem(LS_KEY, JSON.stringify(store)); updateCloudStatus("云端共享 · 已载入云端数据"); }
+      else updateCloudStatus("云端共享 · 等待首次数据");
+      // 非静默：若有云端数据且本机为空则提示
+    }catch(e){ console.warn(e); updateCloudStatus("云端连接异常（已退回本机）", true); }
+  } else {
+    updateCloudStatus("本机模式（未配置云端）");
+  }
+  renderAll();
+})();
+</script>
+</body>
+</html>
