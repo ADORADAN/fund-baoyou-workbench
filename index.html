@@ -189,7 +189,7 @@
 
     <div class="kpis" id="kpiRow" data-page-node-id="gc8fqq1AY206sS634Ej0XA"><!-- JS填充 --></div>
 
-    <div class="grid2" data-page-node-id="isPleEhJIpGiSOFzI8z1fO">
+    <div class="grid2" id="dashGrid">
       <div class="card" data-page-node-id="SBGaTlPbmEpfQbwoeFxwLJ">
         <h3 data-page-node-id="mLOfokGl6NpOogDWJXB3cG"><span class="dot" style="background:var(--primary)" data-page-node-id="QzyS6XpMujrFXNKCKZLZiO"></span>本月记录趋势（联系客户数 / 入金+意向金额）</h3>
         <div class="legend" data-page-node-id="fqRCBwNDnZstBfjnDcyZTE">
@@ -200,20 +200,9 @@
         <div class="chart-box" data-page-node-id="OG3sPn5AwB6gFmJS9YdWlE"><canvas id="trendChart" height="200" data-page-node-id="pM2HH26Lb2sTrIHPgVYT9D"></canvas></div>
       </div>
 
-      <div class="card" data-page-node-id="RJ4s5eyzfxRZooyQgAIWut">
-        <h3 data-page-node-id="b8DWGHuBHbfROpSCJVC5fg"><span class="dot" style="background:var(--green)" data-page-node-id="bOIG2GLRS7InXpknxoxH5x"></span>五条思路推进情况（本月累计）</h3>
-        <div id="approachList" data-page-node-id="JsXRQUw7cEZBYaAD0PjiPF"><!-- JS --></div>
-      </div>
-    </div>
-
-    <div class="grid2" data-page-node-id="7HBFH040nwh8v1HpmSALAl">
-      <div class="card" data-page-node-id="7nZHKUmhuowaJ2FE3kfKHy">
-        <h3 data-page-node-id="t0fzZW0VMTpzAGDWyDMwkq"><span class="dot" style="background:var(--orange)" data-page-node-id="AAzdFhYJY9C6snfA29q7Tw"></span>填报覆盖情况（近7个有记录的日期）</h3>
-        <div id="coverList" data-page-node-id="kMsLZCDqMxOJcPpuaGrbDl"><!-- JS --></div>
-      </div>
-      <div class="card" data-page-node-id="GtAp3VB4EIC9CvIND2Gdfj">
-        <h3 data-page-node-id="AFY7pNDK9XNXTyYK4bOr5Q"><span class="dot" style="background:var(--purple)" data-page-node-id="0P3POGeIYLvpzAOnnPWR0a"></span>最近工作记录</h3>
-        <div id="recentList" data-page-node-id="lD2qd5tiCu2jmVeFuz5Qz9"><!-- JS --></div>
+      <div class="card" id="approachCard">
+        <h3><span class="dot" style="background:var(--green)"></span>五条思路推进情况（本月累计）</h3>
+        <div id="approachList"><!-- JS --></div>
       </div>
     </div>
   </div>
@@ -971,8 +960,13 @@ function renderDash(){
       <div class="k-sub">${k.sub}</div>
     </div>`).join("");
 
-  // 五条思路推进
-  $("approachList").innerHTML = APPROACHES.map(a=>{
+  // 五条思路推进：只显示本月真正填过内容的那些
+  const filled = APPROACHES.filter(a=>approachFilled(a, m, t[a.key]));
+  const card = $("approachCard");
+  if(card) card.style.display = filled.length ? "" : "none";
+  const grid = $("dashGrid");
+  if(grid) grid.style.gridTemplateColumns = filled.length ? "" : "1fr";   // 思路区空着就让趋势图占满宽
+  $("approachList").innerHTML = filled.map(a=>{
     const tt = t[a.key];
     let meta;
     if(a.amountField) meta = `记录 ${tt.contact} ${a.key==="institution"?"家":"人"} · 资金 ${tt.amount} 万元`;
@@ -992,8 +986,22 @@ function renderDash(){
   }).join("");
 
   renderTrend(m);
-  renderCover(t, m);
-  renderRecent(m);
+}
+
+/* 判断某条思路本月有没有真正填过：有数字看数字，没数字就看有没有填任何字段 */
+function approachFilled(a, m, tt){
+  if(tt && (num(tt.contact||0) > 0 || num(tt.amount||0) > 0)) return true;
+  return monthLogs(m).some(l=>{
+    const it = l.items && l.items[a.key];
+    if(!it) return false;
+    return Object.keys(it).some(k=>{
+      const v = it[k];
+      if(v == null) return false;
+      if(typeof v === "string") return v.trim() !== "";
+      if(typeof v === "number") return v > 0;
+      return true;
+    });
+  });
 }
 
 /* 每日趋势图 */
@@ -1032,8 +1040,8 @@ function drawTrend(data){
   });
 }
 
-/* 填报覆盖 & 最近记录 */
-function renderCover(t, m){
+/* 填报覆盖 & 最近记录 —— 已按需求从首页移除，函数保留备用 */
+function renderCover_unused(t, m){
   const days = new Set(store.logs.map(l=>l.date));
   const sorted=[...days].sort();
   const last= sorted.slice(-7);
@@ -1049,9 +1057,10 @@ function renderCover(t, m){
   }).join("") : `<div class="empty">本月暂无填报记录</div>`;
   $("coverList").innerHTML = html;
 }
-function renderRecent(m){
+function renderRecent_unused(m){
   const top = store.logs.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")||b.id-a.id).slice(0,8);
-  $("recentList").innerHTML = top.length? top.map(l=>{
+  const _box = $("recentList"); if(!_box) return;
+  _box.innerHTML = top.length? top.map(l=>{
     const dims = APPROACHES.map(a=>{ const it=l.items&&l.items[a.key]; if(!it) return null;
       let s=a.name.slice(a.name.indexOf(" ")+1);
       if(a.amountField) s+=" "+num(it[a.amountField]||0)+"万";
