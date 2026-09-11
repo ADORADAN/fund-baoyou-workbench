@@ -1040,7 +1040,7 @@ function drawTrend(data){
   });
 }
 
-/* 填报覆盖 & 最近记录 —— 已按需求从首页移除，函数保留备用 */
+/* 以下两个渲染函数已停用（首页精简时移除），留着备用，不再调用 */
 function renderCover_unused(t, m){
   const days = new Set(store.logs.map(l=>l.date));
   const sorted=[...days].sort();
