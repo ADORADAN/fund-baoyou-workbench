@@ -355,58 +355,78 @@ APPROACHES.forEach(a=>AK[a.key]=a);
 
 /* ---------- 工具 ---------- */
 const $=id=>document.getElementById(id);
-/* ===== 云端共享配置（GitHub 方案） =====
-   GitHub Pages 只托管静态文件、没有数据库。这里改用「仓库里的一个 JSON 文件」
-   作为共享存储，零额外注册，只用 GitHub：
-   - 读：网页调用 GitHub Contents API 拉取 data/shared.json
-   - 写：用同一个 Token 通过 Contents API 覆盖写回（自动合并去重）
-   说明见同目录「部署说明.md」（部署后 enabled 改 true）。留空则退回本机单机模式。 */
+/* ===== 云端实时共享配置（腾讯云 CloudBase） =====
+   GitHub Pages 只托管静态页面。多人实时共看/共写数据，需把数据放进一个
+   「云端数据库」。这里接入腾讯云 CloudBase（web SDK + 匿名登录）：
+   - 读/写：CloudBase 云数据库里的一份文档（全体成员共享，自动实时推送）
+   - 实在通不上云就自动退回本机单机模式（localStorage + 复制/粘贴数据包）
+   启用步骤见 README；就绪后把 cloudEnabled 改 true 并填好 envId。 */
 const CFG = {
-  enabled: false,          // 部署后改为 true
-  owner: "",               // GitHub 用户名/组织名，如 "zhangsan"
-  repo: "",                // 仓库名，如 "fund-workbench"
-  branch: "main",          // 默认分支
-  file: "data/shared.json",// 共享数据文件路径（需先在仓库提交一个空的 "{}" 占位文件）
-  token: ""                // Fine-grained PAT，仅授权到该仓库的 contents 读写
+  cloudEnabled: false,      // CloudBase 就绪后改为 true
+  envId: "",                // CloudBase 环境ID，如 "fund-baoyou-xxxxxxx"
+  region: "ap-guangzhou",   // 环境所在地域（控制台可查，按环境所在地区填）
+  collection: "workbench",  // 云数据库集合名（需先在控制台创建，权限设为"所有用户可读写"）
+  docId: "main"             // 存放整份工作台数据的文档ID
 };
-const GITHUB_API = "https://api.github.com";
+const CB_SDK = "https://static.cloudbase.net/cloudbase-js-sdk/2.9.0/cloudbase.full.js";
 
-function cloudReady(){
-  return !!(CFG.enabled && CFG.owner && CFG.repo && CFG.token);
+function loadScript(src){
+  return new Promise((ok,no)=>{
+    const s = document.createElement("script");
+    s.src = src; s.onload = ok; s.onerror = ()=>no(new Error("CloudBase SDK 加载失败"));
+    document.head.appendChild(s);
+  });
 }
-/* UTF-8 ↔ base64（兼容中文，分块避免栈溢出） */
-function strToB64(s){
-  const bytes = new TextEncoder().encode(s);
-  let bin = "";
-  for(let i=0;i<bytes.length;i+=0x8000){
-    bin += String.fromCharCode.apply(null, bytes.subarray(i, i+0x8000));
+
+function cloudReady(){ return !!(CFG.cloudEnabled && CFG.envId); }
+let cbApp = null, cbDb = null, cbWatch = null;   // CloudBase 运行时状态
+
+/* —— CloudBase 初始化：匿名登录 → 确保文档存在 → 开启实时订阅 —— */
+async function initCloud(){
+  if(!cloudReady()){ updateCloudStatus("本机模式（未配置云端）"); return false; }
+  try{
+    await loadScript(CB_SDK);
+    cbApp = tcb.init({ env: CFG.envId, region: CFG.region });
+    const auth = cbApp.auth({ persistence: "local" });   // 匿名登录，身份持久化在本机
+    let state = null; try{ state = await auth.getLoginState(); }catch(e){ state = null; }
+    if(!state){ await auth.anonymousAuthProvider().signIn(); }
+    cbDb = cbApp.database();
+    await ensureDoc();
+    startWatch();
+    updateCloudStatus("云端已连接 · 实时共享");
+    return true;
+  }catch(e){
+    console.warn("CloudBase init failed", e);
+    cbDb = null;
+    updateCloudStatus("云端连接失败（已退回本机）", true);
+    return false;
   }
-  return btoa(bin);
 }
-function b64ToStr(b64){
-  const bin = atob(b64);
-  const bytes = new Uint8Array(bin.length);
-  for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
-  return new TextDecoder().decode(bytes);
+async function ensureDoc(){
+  try{
+    const r = await cbDb.collection(CFG.collection).doc(CFG.docId).get();
+    if(!(r.data && r.data.length)){
+      await cbDb.collection(CFG.collection).doc(CFG.docId).set({ data: defaultStore() });
+    }
+  }catch(e){
+    try{ await cbDb.collection(CFG.collection).doc(CFG.docId).set({ data: defaultStore() }); }catch(e2){}
+  }
 }
-function ghUrl(){ return `${GITHUB_API}/repos/${CFG.owner}/${CFG.repo}/contents/${encodeURIComponent(CFG.file)}?ref=${CFG.branch}`; }
-function ghHeaders(){
-  return {
-    "Authorization": "token " + CFG.token,
-    "Accept": "application/vnd.github+json"
-  };
+
+/* 实时更新在云端发生后的回调：云端为准，同时补回本机尚未推送的条目 */
+function applyRemote(remote){
+  const merged = mergeStore(remote, store);
+  store = merged;
+  localStorage.setItem(LS_KEY, JSON.stringify(merged));
+  renderAll();
+  updateCloudStatus("实时已更新");
 }
-/* 从云端拉取共享文件，返回 { store, sha }；文件不存在则返回 null */
+/* 从云端读取最新 store */
 async function cloudFetchRaw(){
-  const res = await fetch(ghUrl(), { headers: ghHeaders() });
-  if(res.status === 404) return null;
-  if(!res.ok) throw new Error("GH fetch " + res.status);
-  const j = await res.json();
-  let store = null;
-  try{ store = JSON.parse(b64ToStr(j.content)); }catch(e){ store = {};
-    try{ store = JSON.parse(decodeURIComponent(escape(atob(j.content)))); }catch(e2){}
-  }
-  return { store, sha: j.sha };
+  if(!cbDb) return null;
+  const r = await cbDb.collection(CFG.collection).doc(CFG.docId).get();
+  const d = (r && r.data && r.data[0]) ? r.data[0] : null;
+  return (d && d.data) ? { store: d.data } : null;
 }
 /* 合并两份 store（按天然主键去重，收敛多人改写） */
 function mergeStore(a, b){
@@ -428,34 +448,19 @@ function mergeStore(a, b){
   out.aum = [...am.values()];
   return out;
 }
-/* 向云端推送（先拉最新合并再覆盖；遇并发冲突 409 则自动重合并重试一次） */
-async function cloudPush(store, tries){
-  tries = tries==null ? 2 : tries;
-  for(let i=0;i<tries;i++){
-    const latest = await cloudFetchRaw();
-    const prevStore = latest ? latest.store : null;
-    const merged = prevStore ? mergeStore(prevStore, store) : store;
-    const body = {
-      message: "sync " + new Date().toISOString(),
-      content: strToB64(JSON.stringify(merged)),
-      branch: CFG.branch
-    };
-    if(latest && latest.sha) body.sha = latest.sha;
-    const res = await fetch(`${GITHUB_API}/repos/${CFG.owner}/${CFG.repo}/contents/${encodeURIComponent(CFG.file)}`, {
-      method: "PUT",
-      headers: Object.assign(ghHeaders(), { "Content-Type": "application/json" }),
-      body: JSON.stringify(body)
-    });
-    if(res.ok) return merged;
-    if(res.status === 409 && i < tries-1){ store = merged; continue; } // 并发冲突，重新合并再写
-    throw new Error("GH push " + res.status);
-  }
+/* 推云端：先拉最新合并再整文档覆盖（多人并发靠主键去重收敛） */
+async function cloudPush(store){
+  const latest = await cloudFetchRaw();
+  const prev = latest ? latest.store : null;
+  const merged = prev ? mergeStore(prev, store) : store;
+  await cbDb.collection(CFG.collection).doc(CFG.docId).set({ data: merged });
+  return merged;
 }
 /* 云端同步版 save()：本机缓存 + 异步推云端 */
 function cloudSaveNow(s){
   localStorage.setItem(LS_KEY, JSON.stringify(s));
-  if(cloudReady()){
-    cloudPush(s).then(merged=>{ localStorage.setItem(LS_KEY, JSON.stringify(merged)); updateCloudStatus("已同步"); })
+  if(cloudReady() && cbDb){
+    cloudPush(s).then(merged=>{ localStorage.setItem(LS_KEY, JSON.stringify(merged)); updateCloudStatus("云端已保存"); })
       .catch(e=>{ console.warn("云同步失败", e); updateCloudStatus("同步失败（已存本机）", true); });
   }
 }
@@ -465,10 +470,24 @@ function updateCloudStatus(msg, bad){
   if(el) el.innerHTML = `<span class="pill ${bad?'warn':'ok'}">${msg}</span>`;
 }
 async function pullFromCloud(){
-  if(!cloudReady()) return load();
-  const rec = await cloudFetchRaw();
-  if(rec && rec.store){ localStorage.setItem(LS_KEY, JSON.stringify(rec.store)); return rec.store; }
+  if(!cloudReady() || !cbDb) return load();
+  try{
+    const rec = await cloudFetchRaw();
+    if(rec && rec.store){ localStorage.setItem(LS_KEY, JSON.stringify(rec.store)); return rec.store; }
+  }catch(e){}
   return load();
+}
+/* 实时订阅：本地任何人一填，云端文档变化，全体在线的人即时收到并重绘 */
+function startWatch(){
+  if(!cbDb) return;
+  cbWatch = cbDb.collection(CFG.collection).doc(CFG.docId).watch({
+    onChange: snap=>{
+      const ds = (snap && snap.docs) ? snap.docs : [];
+      const d = (ds[0] && ds[0].data) ? ds[0] : null;
+      if(d && d.data) applyRemote(d.data);
+    },
+    onError: e=>{ console.warn("实时监听中断", e); updateCloudStatus("实时监听中断", true); }
+  });
 }
 async function refreshFromCloud(){
   store = await pullFromCloud(); renderAll(); updateCloudStatus("已刷新");
@@ -927,15 +946,14 @@ document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>swit
 initDates();
 renderEntryForm();
 (async function boot(){
-  if(cloudReady()){
+  let ok = false;
+  try{ ok = await initCloud(); }catch(e){ console.warn(e); ok = false; }
+  if(ok){
     try{
       const rec = await cloudFetchRaw();
       if(rec && rec.store){ store = rec.store; localStorage.setItem(LS_KEY, JSON.stringify(store)); updateCloudStatus("云端共享 · 已载入云端数据"); }
       else updateCloudStatus("云端共享 · 等待首次数据");
-      // 非静默：若有云端数据且本机为空则提示
-    }catch(e){ console.warn(e); updateCloudStatus("云端连接异常（已退回本机）", true); }
-  } else {
-    updateCloudStatus("本机模式（未配置云端）");
+    }catch(e){ console.warn(e); }
   }
   renderAll();
 })();
