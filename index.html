@@ -389,7 +389,7 @@ async function initCloud(){
     cbApp = cloudbase.init({ env: CFG.envId, region: CFG.region });
     const auth = cbApp.auth({ persistence: "local" });   // 匿名登录，身份持久化在本机
     let state = null; try{ state = await auth.getLoginState(); }catch(e){ state = null; }
-    if(!state){ await auth.anonymousAuthProvider().signIn(); }
+    if(!state){ await auth.signInAnonymously(); }   // 匿名登录（js-sdk v2 无登录交互）
     cbDb = cbApp.database();
     await ensureDoc();
     startWatch();
